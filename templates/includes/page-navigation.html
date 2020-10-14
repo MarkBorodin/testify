@@ -1,0 +1,18 @@
+<br>
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ request.query_params }}">previous</a></li>
+        {% endif %}
+
+        <li class="page-link" >
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ request.query_params }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last</a></li>
+        {% endif %}
+    </ul>
+</nav>
