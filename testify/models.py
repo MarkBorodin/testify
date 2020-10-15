@@ -15,7 +15,7 @@ class Test(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=1024)
     correct_answer = models.OneToOneField(
-        to=Answer,
+        to=Answer, # noqa
         null=False,
         on_delete=models.SET_NULL,
         related_name='questions',
