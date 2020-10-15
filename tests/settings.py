@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
 
-    'tests',
+    'testify',
     'core',
     'accounts',
 
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-ROOT_URLCONF = 'testify.urls'
+ROOT_URLCONF = 'tests.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'testify.wsgi.application'
+WSGI_APPLICATION = 'tests.wsgi.application'
 
 
 # Database
