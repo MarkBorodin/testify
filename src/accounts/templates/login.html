@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+    <title>Login as a new user</title>
+{% endblock %}
+
+{% block header%}
+<h3>Login as a new user</h3>
+{% endblock %}
+
+{% block content %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{form|crispy}}
+
+        <input type="submit" class="btn btn-success" value="Log in">
+        <a class="btn btn-light" href="{% url 'core:index' %}">Home</a>
+    </form>
+
+{% endblock %}
