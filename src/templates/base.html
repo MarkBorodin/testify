@@ -71,7 +71,8 @@ tr:nth-child(even) {
 
                 {% if user.is_authenticated %}
 
-                <li class="nav-item">
+
+                <li class="nav-item {% if request.path == '/accounts/profile/' %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
                 </li>
                 <li class="img-circle.vert">
@@ -84,11 +85,11 @@ tr:nth-child(even) {
 
                 {% else %}
 
-                <li class="nav-item">
+                <li class="nav-item {% if request.path == '/accounts/register/' %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item {% if request.path == '/accounts/login/' %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
                 </li>
 
