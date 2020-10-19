@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from testify.forms import QuestionsInlineFormSet, QuestionForm, AnswersInlineFormSet
-from testify.models import Test, Question, Answer, TestResult, Topic
+from testify.forms import AnswersInlineFormSet, QuestionForm, QuestionsInlineFormSet
+from testify.models import Answer, Question, Test, TestResult, Topic
 
 
 class AnswersInline(admin.TabularInline):

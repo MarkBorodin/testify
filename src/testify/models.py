@@ -1,8 +1,9 @@
+from accounts.models import User
+
+from core.models import BaseModel
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-from accounts.models import User
-from core.models import BaseModel
 
 
 class Topic(models.Model):
