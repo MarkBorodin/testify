@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView
 
 
 class AccountCreateView(CreateView):
@@ -58,3 +58,9 @@ class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'password-change.html'
     form_class = AccountPasswordChangeForm
     success_url = reverse_lazy('core:index')
+
+
+class AccountListView(ListView):
+    model = User
+    template_name = 'users-list.html'
+    context_object_name = 'users'

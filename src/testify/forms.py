@@ -19,6 +19,15 @@ class QuestionsInlineFormSet(BaseInlineFormSet):
             raise ValidationError('Quantity of question is out of range ({}..{})'.format(
                 self.instance.QUESTION_MIN_LIMIT, self.instance.QUESTION_MAX_LIMIT))
 
+        if self.forms[0].cleaned_data['order_number'] != 1:
+            raise ValidationError('Numeration starts with one')
+
+        previous_form = self.forms[0]
+        for form in self.forms[1:]:
+            if form.cleaned_data['order_number'] != previous_form.cleaned_data['order_number'] + 1:
+                raise ValidationError('Numbers must be in correct order')
+            previous_form = form
+
 
 class AnswersInlineFormSet(BaseInlineFormSet):
     def clean(self):

@@ -1,6 +1,9 @@
-from django.urls import path # noqa
+from django.urls import path
 
+from testify.views import TestListView
 
 app_name = 'testify'
 
-urlpatterns = []
+urlpatterns = [
+    path('', TestListView.as_view(), name='tests'),
+]
