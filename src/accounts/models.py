@@ -14,3 +14,6 @@ class User(AbstractUser):
         result = super().save(*args, **kwargs)
         resize_image(self.image)
         return result
+
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'

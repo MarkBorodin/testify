@@ -1,7 +1,16 @@
+from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import BaseInlineFormSet, ModelForm
+from django.forms import BaseInlineFormSet, ModelForm, modelformset_factory
 
-from testify.models import Question
+from testify.models import Answer, Question
+
+
+class AnswerForm(ModelForm):
+    is_selected = forms.BooleanField(required=False)
+
+    class Meta:
+        model = Answer
+        fields = ['text', 'is_selected']
 
 
 class QuestionForm(ModelForm):
@@ -50,3 +59,10 @@ class AnswersInlineFormSet(BaseInlineFormSet):
 
         if num_correct_answers == len(self.forms):
             raise ValidationError('Not allowed to select ALL answers!')
+
+
+AnswerFormSet = modelformset_factory(
+    model=Answer,
+    form=AnswerForm,
+    extra=0
+)
