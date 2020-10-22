@@ -1,7 +1,16 @@
+from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import BaseInlineFormSet, ModelForm
+from django.forms import BaseInlineFormSet, ModelForm, modelformset_factory
 
-from testify.models import Question
+from testify.models import Answer, Question
+
+
+class AnswerForm(ModelForm):
+    is_selected = forms.BooleanField(required=False)
+
+    class Meta:
+        model = Answer
+        fields = ['text', 'is_selected']
 
 
 class QuestionForm(ModelForm):
@@ -18,6 +27,19 @@ class QuestionsInlineFormSet(BaseInlineFormSet):
         if not (self.instance.QUESTION_MIN_LIMIT <= len(self.forms) <= self.instance.QUESTION_MAX_LIMIT):
             raise ValidationError('Quantity of question is out of range ({}..{})'.format(
                 self.instance.QUESTION_MIN_LIMIT, self.instance.QUESTION_MAX_LIMIT))
+
+        order_number_list = []
+        for form in self.forms:
+            order_number_list.append(form.cleaned_data['order_number'])
+
+        if 1 not in order_number_list:
+            raise ValidationError('Numeration starts with one')
+
+        previous = 1
+        for i in sorted(order_number_list)[1:]:
+            if i != previous + 1:
+                raise ValidationError('All numbers increase with step 1')
+            previous = i
 
 
 class AnswersInlineFormSet(BaseInlineFormSet):
@@ -37,3 +59,10 @@ class AnswersInlineFormSet(BaseInlineFormSet):
 
         if num_correct_answers == len(self.forms):
             raise ValidationError('Not allowed to select ALL answers!')
+
+
+AnswerFormSet = modelformset_factory(
+    model=Answer,
+    form=AnswerForm,
+    extra=0
+)

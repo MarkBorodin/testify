@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+    <title>Tests list</title>
+{% endblock %}
+
+{% block header%}
+<h3>Tests list</h3>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>image</th>
+                <th>username</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>birth_date</th>
+                <th>interests</th>
+                <th>rating</th>
+            </tr>
+        {% for user in users %}
+            <tr>
+                <td><img class="rounded-circle p-1 m-1" width="80" height="80" src="{{ user.image.url }}"></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.birth_date }}</td>
+                <td>{{ user.interests }}</td>
+                <td>{{ user.rating }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
