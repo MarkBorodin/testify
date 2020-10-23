@@ -63,7 +63,6 @@ class TestResult(BaseModel):
     user = models.ForeignKey(to=User, related_name='test_results', on_delete=models.CASCADE)
     test = models.ForeignKey(to=Test, related_name='test_results', on_delete=models.CASCADE)
     state = models.PositiveSmallIntegerField(default=STATE.NEW, choices=STATE.choices)
-
     score = models.DecimalField(default=0.0, decimal_places=2, max_digits=5,
                                 validators=[MinValueValidator(0), MaxValueValidator(100)])
 
@@ -75,6 +74,28 @@ class TestResult(BaseModel):
         default=0,
         validators=[MaxValueValidator(Test.QUESTION_MAX_LIMIT)]
     )
+    points = models.SmallIntegerField(default=0)
+    taken_time = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
         return f'{self.test} ran by {self.user.full_name()} at {self.write_date}'
+
+    @staticmethod
+    def best_result():
+        ob = TestResult.objects.order_by('-num_correct_answers', 'taken_time').first()
+        try:
+            result = f'{ob.user} scored {ob.num_correct_answers} points'
+            return result
+        except AttributeError:
+            result = 'No one has done this test yet'
+            return result
+
+    @staticmethod
+    def last_run():
+        ob = TestResult.objects.order_by('-write_date').first()
+        try:
+            result = ob.write_date
+            return result
+        except AttributeError:
+            result = 'No one has run this test yet'
+            return result

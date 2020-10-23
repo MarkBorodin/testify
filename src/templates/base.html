@@ -33,7 +33,7 @@ tr:nth-child(even) {
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'core:index' %}">Tests</a>
+      <a class="navbar-brand" href="{% url 'core:index' %}">Testify</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -71,6 +71,15 @@ tr:nth-child(even) {
 
                 {% if user.is_authenticated %}
 
+                <li class="nav-item {% if request.path == '/testify/' %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'tests:list' %}">Tests</a>
+                </li>
+                <li class="nav-item {% if request.path == '/accounts/leaderboard/' %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
+                </li>
+                <li class="nav-item {% if request.path == '/accounts/' %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>
+                </li>
 
                 <li class="nav-item {% if request.path == '/accounts/profile/' %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>

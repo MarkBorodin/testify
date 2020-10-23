@@ -1,3 +1,5 @@
+from accounts.models import User
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
@@ -18,6 +20,14 @@ class TestDetailView(DetailView):
     template_name = 'details.html'
     context_object_name = 'test'
     pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        all_results = TestResult.objects.filter(test=self.kwargs['id'])
+        context['all_results'] = all_results
+        context['best_result'] = TestResult.best_result()
+        context['last_run'] = TestResult.last_run()
+        return context
 
 
 class TestRunnerView(View):
@@ -63,7 +73,6 @@ class QuestionView(View):
 
         possible_choices = len(form_set.forms)
         selected_choices = [
-            # form.cleaned_data.get('is_selected', False)
             'is_selected' in form.changed_data
             for form in form_set.forms
         ]
@@ -87,14 +96,25 @@ class QuestionView(View):
 
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
+            test_result.score = test_result.num_correct_answers / test_result.test.questions.count() * 100
+            test_result.points = (test_result.num_correct_answers + test_result.num_incorrect_answers) -\
+                test_result.num_incorrect_answers
+            test_result.taken_time = test_result.write_date - test_result.create_date
             test_result.save()
+
+            user = User.objects.get(username=request.user)
+            current_rating = user.rating
+            new_rating = current_rating + test_result.points
+            user.rating = new_rating
+            user.save()
+
             return render(
                 request=request,
                 template_name='finish.html',
                 context={
                     'test_result': test_result,
-                    'time_spent': test_result.write_date - test_result.create_date,
-                    'test_result_score': test_result.num_correct_answers/test_result.test.questions.count()*100
+                    'time_finished': test_result.write_date,
+                    'points': test_result.points,
                 }
             )
         else:
