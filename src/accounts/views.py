@@ -70,9 +70,4 @@ class LeaderboardListView(ListView):
     model = User
     template_name = 'leaderboard.html'
     context_object_name = 'users'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        users = User.objects.filter(rating__gt=0).order_by('-rating')
-        context['users'] = users
-        return context
+    queryset = User.objects.filter(rating__gt=0).order_by('-rating')

@@ -57,7 +57,7 @@
         </div>
     </div>
 
-
+{% if last_run != 'No one has run this test yet' %}
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -77,6 +77,6 @@
         </tr>
     {% endfor %}
 </table>
-
+{% endif %}
 
 {% endblock %}

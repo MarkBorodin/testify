@@ -81,21 +81,21 @@ class TestResult(BaseModel):
         return f'{self.test} ran by {self.user.full_name()} at {self.write_date}'
 
     @staticmethod
-    def best_result():
-        ob = TestResult.objects.order_by('-num_correct_answers', 'taken_time').first()
-        try:
+    def best_result(test_id):
+        if TestResult.objects.filter(test=test_id).count() > 0:
+            ob = TestResult.objects.filter(test=test_id).order_by('-points', 'taken_time').first()
             result = f'{ob.user} scored {ob.num_correct_answers} points'
             return result
-        except AttributeError:
+        else:
             result = 'No one has done this test yet'
             return result
 
     @staticmethod
-    def last_run():
-        ob = TestResult.objects.order_by('-write_date').first()
-        try:
+    def last_run(test_id):
+        if TestResult.objects.filter(test=test_id).count() > 0:
+            ob = TestResult.objects.filter(test=test_id).order_by('-write_date').first()
             result = ob.write_date
             return result
-        except AttributeError:
+        else:
             result = 'No one has run this test yet'
             return result

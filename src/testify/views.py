@@ -23,10 +23,11 @@ class TestDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        all_results = TestResult.objects.filter(test=self.kwargs['id'])
+        test_id = self.kwargs['id']
+        all_results = TestResult.objects.filter(test=test_id)
         context['all_results'] = all_results
-        context['best_result'] = TestResult.best_result()
-        context['last_run'] = TestResult.last_run()
+        context['best_result'] = TestResult.best_result(test_id)
+        context['last_run'] = TestResult.last_run(test_id)
         return context
 
 
@@ -97,8 +98,7 @@ class QuestionView(View):
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
             test_result.score = test_result.num_correct_answers / test_result.test.questions.count() * 100
-            test_result.points = (test_result.num_correct_answers + test_result.num_incorrect_answers) -\
-                test_result.num_incorrect_answers
+            test_result.points = max(0, (test_result.num_correct_answers - test_result.num_incorrect_answers))
             test_result.taken_time = test_result.write_date - test_result.create_date
             test_result.save()
 
