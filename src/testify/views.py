@@ -99,7 +99,6 @@ class QuestionView(View):
             test_result.state = TestResult.STATE.FINISHED
             test_result.score = test_result.num_correct_answers / test_result.test.questions.count() * 100
             test_result.points = max(0, (test_result.num_correct_answers - test_result.num_incorrect_answers))
-            test_result.taken_time = test_result.write_date - test_result.create_date
             test_result.save()
 
             user = User.objects.get(username=request.user)
@@ -113,8 +112,6 @@ class QuestionView(View):
                 template_name='finish.html',
                 context={
                     'test_result': test_result,
-                    'time_finished': test_result.write_date,
-                    'points': test_result.points,
                 }
             )
         else:

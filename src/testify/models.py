@@ -74,16 +74,22 @@ class TestResult(BaseModel):
         default=0,
         validators=[MaxValueValidator(Test.QUESTION_MAX_LIMIT)]
     )
-    points = models.SmallIntegerField(default=0)
-    taken_time = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
         return f'{self.test} ran by {self.user.full_name()} at {self.write_date}'
 
+    def points(self):
+        return max(0, self.num_correct_answers - self.num_incorrect_answers)
+
+    def time_spent(self):
+        return self.write_date - self.create_date
+
     @staticmethod
     def best_result(test_id):
         if TestResult.objects.filter(test=test_id).count() > 0:
-            ob = TestResult.objects.filter(test=test_id).order_by('-points', 'taken_time').first()
+            ob = TestResult.objects.extra(select={
+                'points': 'num_correct_answers - num_incorrect_answers', 'duration': 'write_date - create_date'},
+                order_by=['-points', 'duration']).first()
             result = f'{ob.user} scored {ob.num_correct_answers} points'
             return result
         else:
