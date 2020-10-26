@@ -1,6 +1,4 @@
-from accounts.models import User
-
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
@@ -22,38 +20,51 @@ class TestDetailView(DetailView):
     pk_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         test_id = self.kwargs['id']
         all_results = TestResult.objects.filter(test=test_id)
         context['all_results'] = all_results
         context['best_result'] = TestResult.best_result(test_id)
         context['last_run'] = TestResult.last_run(test_id)
+        context['continue_flag'] = TestResult.objects.filter(
+            user=self.request.user,
+            state=TestResult.STATE.NEW,
+            test=self.get_object(),
+        ).count()
         return context
 
 
 class TestRunnerView(View):
 
     def get(self, request, id):  # noqa
-        TestResult.objects.filter(
+        current_user_tests = TestResult.objects.filter(
             user=request.user,
             state=TestResult.STATE.NEW,
             test=Test.objects.get(id=id),
-        ).delete()
-
-        TestResult.objects.create(
-            user=request.user,
-            state=TestResult.STATE.NEW,
-            test=Test.objects.get(id=id),
-            num_correct_answers=0,
-            num_incorrect_answers=0,
         )
 
-        return redirect(reverse('tests:question', args=(id, 1)))
+        if current_user_tests.count() == 0:
+            TestResult.objects.create(
+                user=request.user,
+                state=TestResult.STATE.NEW,
+                test=Test.objects.get(id=id),
+                current_order_number=1
+            )
+
+        return redirect(reverse('tests:next', args=(id, )))
 
 
 class QuestionView(View):
 
-    def get(self, request, id, order_number):  # noqa
+    def get(self, request, id):  # noqa
+        test_result = get_object_or_404(
+            TestResult,
+            user=request.user,
+            state=TestResult.STATE.NEW,
+            test=Test.objects.get(id=id),
+        )
+
+        order_number = test_result.current_order_number
         question = Question.objects.get(test_id=id, order_number=order_number)
         answers = question.answers.all()
         form_set = AnswerFormSet(queryset=answers)
@@ -67,7 +78,16 @@ class QuestionView(View):
             }
         )
 
-    def post(self, request, id, order_number):  # noqa
+
+    def post(self, request, id):  # noqa
+        test_result = get_object_or_404(
+            TestResult,
+            user=request.user,
+            state=TestResult.STATE.NEW,
+            test=Test.objects.get(id=id),
+        )
+
+        order_number = test_result.current_order_number
         question = Question.objects.get(test__id=id, order_number=order_number)
         answers = question.answers.all()
         form_set = AnswerFormSet(data=request.POST)
@@ -93,19 +113,12 @@ class QuestionView(View):
 
         test_result.num_correct_answers += point
         test_result.num_incorrect_answers += (1 - point)
+        test_result.current_order_number += 1
         test_result.save()
 
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
-            test_result.score = test_result.num_correct_answers / test_result.test.questions.count() * 100
-            test_result.points = max(0, (test_result.num_correct_answers - test_result.num_incorrect_answers))
             test_result.save()
-
-            user = User.objects.get(username=request.user)
-            current_rating = user.rating
-            new_rating = current_rating + test_result.points
-            user.rating = new_rating
-            user.save()
 
             return render(
                 request=request,
@@ -115,4 +128,4 @@ class QuestionView(View):
                 }
             )
         else:
-            return redirect(reverse('tests:question', args=(id, order_number+1)))
+            return redirect(reverse('tests:next', args=(id,)))

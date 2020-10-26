@@ -49,9 +49,15 @@
                     <img class="rounded-circle p-1 m-1" width="350" height="350"  src="{{ test.image.url }}">
                 </div>
 
+                {% if continue_flag %}
+                    <div class="d-flex justify-content-center mt-5 mb-5" >
+                            <a href="{% url 'tests:start' id=test.id %}" type="button" class="btn-lg btn-warning">CONTINUE ▶️</a>
+                    </div>
+                {% else %}
                 <div class="d-flex justify-content-center mt-5 mb-5" >
                         <a href="{% url 'tests:start' id=test.id %}" type="button" class="btn-lg btn-success">START ▶️</a>
                 </div>
+                {% endif %}
 
             </div>
         </div>
