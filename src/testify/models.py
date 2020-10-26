@@ -63,10 +63,6 @@ class TestResult(BaseModel):
     user = models.ForeignKey(to=User, related_name='test_results', on_delete=models.CASCADE)
     test = models.ForeignKey(to=Test, related_name='test_results', on_delete=models.CASCADE)
     state = models.PositiveSmallIntegerField(default=STATE.NEW, choices=STATE.choices)
-
-    score = models.DecimalField(default=0.0, decimal_places=2, max_digits=5,
-                                validators=[MinValueValidator(0), MaxValueValidator(100)])
-
     num_correct_answers = models.PositiveSmallIntegerField(
         default=0,
         validators=[MaxValueValidator(Test.QUESTION_MAX_LIMIT)]
@@ -75,6 +71,40 @@ class TestResult(BaseModel):
         default=0,
         validators=[MaxValueValidator(Test.QUESTION_MAX_LIMIT)]
     )
+    current_order_number = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(Test.QUESTION_MAX_LIMIT)])
 
     def __str__(self):
         return f'{self.test} ran by {self.user.full_name()} at {self.write_date}'
+
+    def points(self):
+        return max(0, self.num_correct_answers - self.num_incorrect_answers)
+
+    def time_spent(self):
+        return self.write_date - self.create_date
+
+    def score(self):
+        return (self.num_correct_answers / self.test.questions.count()) * 100
+
+    @staticmethod
+    def best_result(test_id):
+        queryset = TestResult.objects.filter(test=test_id)
+        if queryset.count() > 0:
+            obj = queryset.extra(select={
+                'points': 'num_correct_answers - num_incorrect_answers', 'duration': 'write_date - create_date'},
+                order_by=['-points', 'duration'])[0]
+            result = f'{obj.user} scored {obj.num_correct_answers} points'
+            return result
+        else:
+            result = 'No one has done this test yet'
+            return result
+
+    @staticmethod
+    def last_run(test_id):
+        if TestResult.objects.filter(test=test_id).count() > 0:
+            ob = TestResult.objects.filter(test=test_id).order_by('-write_date').first()
+            result = ob.write_date
+            return result
+        else:
+            result = 'No one has run this test yet'
+            return result

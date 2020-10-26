@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
+{% block header %}
+    <h3>Navigation</h3>
+{% endblock %}
+
+
 {% block content %}
-    <h4>Test</h4>
+
+    <form>
+        <input formaction="{% url 'accounts:leaderboard' %}" type="submit" class="btn btn-info" value="Leaderboard">
+    </form><br>
+
+    <form>
+        <input formaction="{% url 'tests:list' %}" type="submit" class="btn btn-info" value="Tests">
+    </form><br>
+
+    <form>
+        <input formaction="{% url 'accounts:users' %}" type="submit" class="btn btn-info" value="Users">
+    </form>
+
 {% endblock %}

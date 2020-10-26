@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load math_funcs %}
 
 {% block header %}
     <h1>Question: {{ question.text }}?</h1>
+    {% expr '(%1-1)/%2*100' question.order_number question.test.questions.count as progress %}
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
 {% endblock %}
 
 {% block content %}

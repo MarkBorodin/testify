@@ -64,3 +64,10 @@ class AccountListView(ListView):
     model = User
     template_name = 'users-list.html'
     context_object_name = 'users'
+
+
+class LeaderboardListView(ListView):
+    model = User
+    template_name = 'leaderboard.html'
+    context_object_name = 'users'
+    queryset = User.objects.filter(rating__gt=0).order_by('-rating')

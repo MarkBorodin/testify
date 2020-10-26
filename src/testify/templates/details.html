@@ -31,11 +31,11 @@
                       </tr>
                       <tr>
                         <td>Best result</td>
-                        <td>N/A</td>
+                        <td>{{ best_result }}</td>
                       </tr>
                       <tr>
                         <td>Last run</td>
-                        <td>N/A</td>
+                        <td>{{ last_run }}</td>
                       </tr>
                       <tr>
                         <td>Current open run</td>
@@ -49,12 +49,40 @@
                     <img class="rounded-circle p-1 m-1" width="350" height="350"  src="{{ test.image.url }}">
                 </div>
 
+                {% if continue_flag %}
+                    <div class="d-flex justify-content-center mt-5 mb-5" >
+                            <a href="{% url 'tests:start' id=test.id %}" type="button" class="btn-lg btn-warning">CONTINUE ▶️</a>
+                    </div>
+                {% else %}
                 <div class="d-flex justify-content-center mt-5 mb-5" >
                         <a href="{% url 'tests:start' id=test.id %}" type="button" class="btn-lg btn-success">START ▶️</a>
                 </div>
+                {% endif %}
 
             </div>
         </div>
     </div>
+
+{% if last_run != 'No one has run this test yet' %}
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Started</th>
+            <th>Time spent</th>
+            <th>Points</th>
+        </tr>
+    {% for result in all_results %}
+        <tr>
+            <td>{{ result.id }}</td>
+            <td>{{ result.user }}</td>
+            <td>{{ result.write_date }}</td>
+            <td>{{ result.taken_time }}</td>
+            <td>{{ result.points }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
 {% endblock %}

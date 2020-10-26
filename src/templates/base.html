@@ -31,9 +31,16 @@ tr:nth-child(even) {
 
 <body>
 
+{%url 'tests:list' as List %}
+{%url 'accounts:leaderboard' as Leaderboard %}
+{%url 'accounts:users' as Users %}
+{%url 'accounts:profile' as Profile %}
+{%url 'accounts:register' as Register %}
+{%url 'accounts:login' as Login %}
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'core:index' %}">Tests</a>
+      <a class="navbar-brand" href="{% url 'core:index' %}">Testify</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -71,8 +78,17 @@ tr:nth-child(even) {
 
                 {% if user.is_authenticated %}
 
+                <li class="nav-item {% if request.path == List %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'tests:list' %}">Tests</a>
+                </li>
+                <li class="nav-item {% if request.path == Leaderboard %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
+                </li>
+                <li class="nav-item {% if request.path == Users %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>
+                </li>
 
-                <li class="nav-item {% if request.path == '/accounts/profile/' %} active {% endif %}">
+                <li class="nav-item {% if request.path == Profile %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
                 </li>
                 <li class="img-circle.vert">
@@ -85,11 +101,11 @@ tr:nth-child(even) {
 
                 {% else %}
 
-                <li class="nav-item {% if request.path == '/accounts/register/' %} active {% endif %}">
+                <li class="nav-item {% if request.path == Register %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
                 </li>
 
-                <li class="nav-item {% if request.path == '/accounts/login/' %} active {% endif %}">
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
                 </li>
 

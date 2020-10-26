@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+    <title>Leaderboard</title>
+{% endblock %}
+
+{% block header%}
+<h3>Leaderboard</h3>
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>image</th>
+            <th>User</th>
+            <th>Rating</th>
+        </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td><img class="rounded-circle p-1 m-1" width="70" height="70"  src="{{ user.image.url }}"></td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.rating }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
