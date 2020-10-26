@@ -88,11 +88,12 @@ class TestResult(BaseModel):
 
     @staticmethod
     def best_result(test_id):
-        if TestResult.objects.filter(test=test_id).count() > 0:
-            ob = TestResult.objects.extra(select={
+        queryset = TestResult.objects.filter(test=test_id)
+        if queryset.count() > 0:
+            obj = queryset.extra(select={
                 'points': 'num_correct_answers - num_incorrect_answers', 'duration': 'write_date - create_date'},
-                order_by=['-points', 'duration']).first()
-            result = f'{ob.user} scored {ob.num_correct_answers} points'
+                order_by=['-points', 'duration'])[0]
+            result = f'{obj.user} scored {obj.num_correct_answers} points'
             return result
         else:
             result = 'No one has done this test yet'
