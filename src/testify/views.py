@@ -26,18 +26,11 @@ class TestDetailView(DetailView):
         context['all_results'] = all_results
         context['best_result'] = TestResult.best_result(test_id)
         context['last_run'] = TestResult.last_run(test_id)
-        continue_flag = TestResult.objects.filter(
+        context['current_unfinished_run'] = TestResult.current_unfinished_run(
             user=self.request.user,
-            state=TestResult.STATE.NEW,
-            test=self.get_object(),
-        ).count()
-        if continue_flag > 0:
-            context['current_unfinished_run'] = TestResult.current_unfinished_run(
-                user=self.request.user,
-                state=TestResult.STATE.NEW,
-                test_id=test_id,
-            )
-        context['continue_flag'] = continue_flag
+            test_id=test_id,
+        )
+
         return context
 
 

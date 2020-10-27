@@ -37,10 +37,10 @@
                         <td>Last run</td>
                         <td>{{ last_run }}</td>
                       </tr>
-                      {% if continue_flag %}
+                      {% if current_unfinished_run %}
                       <tr>
                         <td>Current open run</td>
-                        <td>{{ current_unfinished_run }}</td>
+                        <td>{{ current_unfinished_run.create_date }}</td>
                       </tr>
                       {% endif %}
                     </tbody>
@@ -51,7 +51,7 @@
                     <img class="rounded-circle p-1 m-1" width="350" height="350"  src="{{ test.image.url }}">
                 </div>
 
-                {% if continue_flag %}
+                {% if current_unfinished_run %}
                     <div class="d-flex justify-content-center mt-5 mb-5" >
                             <a href="{% url 'tests:start' id=test.id %}" type="button" class="btn-lg btn-warning">CONTINUE ▶️</a>
                     </div>

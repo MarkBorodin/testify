@@ -86,14 +86,14 @@ class TestResult(BaseModel):
     def score(self):
         return (self.num_correct_answers / self.test.questions.count()) * 100
 
-    @staticmethod
-    def current_unfinished_run(user, state, test_id):
-        obj = TestResult.objects.get(
+    @classmethod
+    def current_unfinished_run(cls, user, test_id):
+        qs = cls.objects.filter(
             user=user,
-            state=state,
+            state=cls.STATE.NEW,
             test=test_id,
         )
-        return obj.create_date
+        return qs.first() if qs.count() else None
 
     @staticmethod
     def best_result(test_id):
