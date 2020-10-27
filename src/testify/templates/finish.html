@@ -5,7 +5,7 @@
 {% block header %}
     <h1>Congratulations!!!</h1>
         <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">You answered all the questions</div>
         </div>
 {% endblock %}
 
@@ -28,7 +28,11 @@
                       </tr>
                       <tr>
                         <td>Score</td>
-                        <td>{{ test_result.score|floatformat:2 }}%</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width:{{ test_result.score }}%" aria-valuenow="{{ test_result.score }}" aria-valuemin="0" aria-valuemax="100">{{ test_result.score|floatformat:2 }}%</div>
+                            </div>
+                        </td>
                       </tr>
                       <tr>
                         <td>Time spent</td>

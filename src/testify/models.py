@@ -87,6 +87,15 @@ class TestResult(BaseModel):
         return (self.num_correct_answers / self.test.questions.count()) * 100
 
     @staticmethod
+    def current_unfinished_run(user, state, test_id):
+        obj = TestResult.objects.get(
+            user=user,
+            state=state,
+            test=test_id,
+        )
+        return obj.create_date
+
+    @staticmethod
     def best_result(test_id):
         queryset = TestResult.objects.filter(test=test_id)
         if queryset.count() > 0:

@@ -37,10 +37,12 @@
                         <td>Last run</td>
                         <td>{{ last_run }}</td>
                       </tr>
+                      {% if continue_flag %}
                       <tr>
                         <td>Current open run</td>
-                        <td>N/A</td>
+                        <td>{{ current_unfinished_run }}</td>
                       </tr>
+                      {% endif %}
                     </tbody>
                   </table>
             </div>
