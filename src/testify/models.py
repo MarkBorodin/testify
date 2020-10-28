@@ -86,6 +86,15 @@ class TestResult(BaseModel):
     def score(self):
         return (self.num_correct_answers / self.test.questions.count()) * 100
 
+    @classmethod
+    def current_unfinished_run(cls, user, test_id):
+        qs = cls.objects.filter(
+            user=user,
+            state=cls.STATE.NEW,
+            test=test_id,
+        )
+        return qs.first() if qs.count() else None
+
     @staticmethod
     def best_result(test_id):
         queryset = TestResult.objects.filter(test=test_id)
