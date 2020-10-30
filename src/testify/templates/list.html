@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title%}
     <title>Tests list</title>
@@ -26,8 +27,11 @@
                     <td><img class="rounded-circle p-1 m-1" width="150" height="150"  src="{{ test.image.url }}"></td>
                     <td> {{ test.title }}</td>
                     <td> {{ test.description }}</td>
-                    <td> {{ test.level }}</td>
-
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <img class="rounded-circle p-1 m-1" width="90" height="40"  src="{% static 'common/img/level_{{ test.get_level_display }}.png' %}">
+                        </div>
+                    </td>
                     <td> <a href="{% url 'tests:details' id=test.id %}">DETAILS</a></td>
                 </tr>
             {% endfor %}
