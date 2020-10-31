@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
@@ -30,26 +30,20 @@ class TestDetailView(DetailView):
             user=self.request.user,
             test_id=test_id,
         )
-
         return context
 
 
 class TestRunnerView(View):
 
     def get(self, request, id):  # noqa
-        current_user_tests = TestResult.objects.filter(
+        TestResult.objects.get_or_create(
             user=request.user,
             state=TestResult.STATE.NEW,
             test=Test.objects.get(id=id),
-        )
-
-        if current_user_tests.count() == 0:
-            TestResult.objects.create(
-                user=request.user,
-                state=TestResult.STATE.NEW,
-                test=Test.objects.get(id=id),
+            defaults=dict(
                 current_order_number=1
             )
+        )
 
         return redirect(reverse('tests:next', args=(id, )))
 
@@ -57,12 +51,16 @@ class TestRunnerView(View):
 class QuestionView(View):
 
     def get(self, request, id):  # noqa
-        test_result = get_object_or_404(
-            TestResult,
+        test_result = TestResult.objects.filter(
             user=request.user,
             state=TestResult.STATE.NEW,
             test=Test.objects.get(id=id),
         )
+
+        if test_result.count() == 0:
+            return redirect(reverse('tests:details', args=(id,)))
+
+        test_result = test_result.first()
 
         order_number = test_result.current_order_number
         question = Question.objects.get(test_id=id, order_number=order_number)
@@ -80,12 +78,16 @@ class QuestionView(View):
 
 
     def post(self, request, id):  # noqa
-        test_result = get_object_or_404(
-            TestResult,
+        test_result = TestResult.objects.filter(
             user=request.user,
             state=TestResult.STATE.NEW,
             test=Test.objects.get(id=id),
         )
+
+        if test_result.count() == 0:
+            return redirect(reverse('tests:details', args=(id,)))
+
+        test_result = test_result.first()
 
         order_number = test_result.current_order_number
         question = Question.objects.get(test__id=id, order_number=order_number)
