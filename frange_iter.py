@@ -17,15 +17,33 @@ class frange(object): # noqa
         return self
 
     def __next__(self):
-        if self.i < self.stop and self.step > 0:
-            self.i += self.step
-            return self.i - self.step
-        elif self.i > self.stop and self.step < 0:
+        if self.i < self.stop and self.step > 0 or self.i > self.stop and self.step < 0:
             self.i += self.step
             return self.i - self.step
         else:
             raise StopIteration
 
 
-for i in frange(1, 100, 3.5):
-    print(i)
+# for i in frange(1, 100, 3.5):
+#     print(i)
+#
+# for i in frange(100, 1, -3.5):
+#     print(i)
+#
+# for i in frange(10):
+#     print(i)
+#
+# for i in frange(-10, 10):
+#     print(i)
+#
+# for i in frange(100, 10):
+#     print(i)
+#
+# for i in frange(-20, -10):
+#     print(i)
+#
+# for i in frange(10, 20, -2.5):
+#     print(i)
+#
+# for i in frange(0.5, 0.5, 0.5):
+#     print(i)

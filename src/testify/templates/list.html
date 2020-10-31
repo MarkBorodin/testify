@@ -29,7 +29,7 @@
                     <td> {{ test.description }}</td>
                     <td>
                         <div class="d-flex justify-content-center">
-                            <img class="rounded-circle p-1 m-1" width="90" height="40"  src="{% static 'common/img/level_{{ test.get_level_display }}.png' %}">
+                            <img class="rounded-circle p-1 m-1" width="90" height="40" src="{% static 'common/img/level_'%}{{ test.get_level_display }}.png">
                         </div>
                     </td>
                     <td> <a href="{% url 'tests:details' id=test.id %}">DETAILS</a></td>
