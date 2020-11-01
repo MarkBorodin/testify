@@ -117,3 +117,12 @@ class TestResult(BaseModel):
         else:
             result = 'No one has run this test yet'
             return result
+
+
+class UserResponse(models.Model):
+    test_result = models.ForeignKey(to=TestResult, related_name='users_answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(to=Question, related_name='users_answers', on_delete=models.CASCADE)
+    user_response = models.ForeignKey(to=Answer, related_name='users_answers', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user_response.text

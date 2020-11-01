@@ -1,16 +1,22 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import BaseInlineFormSet, ModelForm, modelformset_factory
+from django.forms import BaseInlineFormSet, HiddenInput, ModelForm, modelformset_factory
 
 from testify.models import Answer, Question
 
 
 class AnswerForm(ModelForm):
     is_selected = forms.BooleanField(required=False)
+    id = forms.IntegerField(required=False) # noqa
 
     class Meta:
         model = Answer
-        fields = ['text', 'is_selected']
+        fields = ['text', 'is_selected', 'id']
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields['text'].widget = HiddenInput()
+        self.fields['id'].widget = HiddenInput()
 
 
 class QuestionForm(ModelForm):

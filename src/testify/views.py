@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from testify.forms import AnswerFormSet
-from testify.models import Question, Test, TestResult
+from testify.models import Answer, Question, Test, TestResult, UserResponse
 
 
 class TestListView(ListView):
@@ -94,6 +94,16 @@ class QuestionView(View):
         answers = question.answers.all()
         form_set = AnswerFormSet(data=request.POST)
 
+        for form in form_set:
+            if 'is_selected' in form.changed_data:
+                answer = Answer.objects.get(id=form.instance.id)
+                user_response = UserResponse.objects.create(
+                    test_result=test_result,
+                    question=question,
+                    user_response=answer,
+                )
+                user_response.save()
+
         possible_choices = len(form_set.forms)
         selected_choices = [
             'is_selected' in form.changed_data
@@ -121,12 +131,20 @@ class QuestionView(View):
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
             test_result.save()
+            user_responses = UserResponse.objects.filter(
+                test_result=test_result.id
+            )
+            questions = Question.objects.filter(
+                test=id
+            )
 
             return render(
                 request=request,
                 template_name='finish.html',
                 context={
                     'test_result': test_result,
+                    'user_responses': user_responses,
+                    'questions': questions,
                 }
             )
         else:
