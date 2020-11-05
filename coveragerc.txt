@@ -1,0 +1,19 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+omit = manage.py,
+       */migrations/*,
+       */tests/*,
+       */apps.py
+
+
+[report]
+precision = 4
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+fail_under = 90
+
+[html]
+directory = ../coverage_html

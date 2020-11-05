@@ -10,3 +10,4 @@ run:
   script:
     - pip install -r requirements.txt
     - flake8 .
+    - ./manage.py test

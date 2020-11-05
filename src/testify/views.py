@@ -1,19 +1,20 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
 
 from testify.forms import AnswerFormSet
-from testify.models import Answer, Question, Test, TestResult, UserResponse
+from testify.models import Question, Test, TestResult, UserResponse
 
 
-class TestListView(ListView):
+class TestListView(LoginRequiredMixin, ListView):
     model = Test
     template_name = 'list.html'
     context_object_name = 'tests'
 
 
-class TestDetailView(DetailView):
+class TestDetailView(LoginRequiredMixin, DetailView):
     model = Test
     template_name = 'details.html'
     context_object_name = 'test'
@@ -33,7 +34,7 @@ class TestDetailView(DetailView):
         return context
 
 
-class TestRunnerView(View):
+class TestRunnerView(LoginRequiredMixin, View):
 
     def get(self, request, id):  # noqa
         TestResult.objects.get_or_create(
@@ -48,7 +49,7 @@ class TestRunnerView(View):
         return redirect(reverse('tests:next', args=(id, )))
 
 
-class QuestionView(View):
+class QuestionView(LoginRequiredMixin, View):
 
     def get(self, request, id):  # noqa
         test_result = TestResult.objects.filter(
@@ -94,15 +95,15 @@ class QuestionView(View):
         answers = question.answers.all()
         form_set = AnswerFormSet(data=request.POST)
 
-        for form in form_set:
-            if 'is_selected' in form.changed_data:
-                answer = Answer.objects.get(id=form.instance.id)
-                user_response = UserResponse.objects.create(
-                    test_result=test_result,
-                    question=question,
-                    user_response=answer,
-                )
-                user_response.save()
+        # for form in form_set:
+        #     if 'is_selected' in form.changed_data:
+        #         answer = Answer.objects.get(id=form.instance.id)
+        #         user_response = UserResponse.objects.create(
+        #             test_result=test_result,
+        #             question=question,
+        #             user_response=answer,
+        #         )
+        #         user_response.save()
 
         possible_choices = len(form_set.forms)
         selected_choices = [
