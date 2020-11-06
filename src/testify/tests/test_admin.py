@@ -1,7 +1,7 @@
 from django.forms.models import inlineformset_factory
 from django.test import TestCase
 
-from testify.forms import AnswerForm, AnswersInlineFormSet, QuestionForm, QuestionsInlineFormSet
+from testify.forms import AnswerAdminForm, AnswersInlineFormSet, QuestionForm, QuestionsInlineFormSet
 from testify.models import Answer, Question, Test
 
 
@@ -65,7 +65,7 @@ class AdminAnswerInlineFormSetTest(TestCase):
         self.question = Question.objects.get(id=1)
 
         self.AnswerFormSet = inlineformset_factory(
-            Question, Answer, AnswerForm, formset=AnswersInlineFormSet)
+            Question, Answer, AnswerAdminForm, formset=AnswersInlineFormSet)
 
         self.data = {
             'answers-INITIAL_FORMS': 0,
@@ -78,23 +78,23 @@ class AdminAnswerInlineFormSetTest(TestCase):
             'answers-2-text': '6',
             'answers-3-text': '7',
         }
-    #
-    # def test_formset_is_valid_if_is_correct_in_answers(self):
-    #     formset = self.AnswerFormSet(self.data, instance=self.question)
-    #     self.assertEqual(formset.is_valid(), True)
-    #
-    # def test_formset_is_invalid_if_not_is_correct_in_answers(self):
-    #     self.data['answers-0-is_correct'] = ''
-    #     formset = self.AnswerFormSet(self.data, instance=self.question)
-    #     self.assertEqual(formset.is_valid(), False)
-    #
-    # def test_formset_is_invalid_if_all_is_correct_in_answers(self):
-    #     self.data['answers-0-is_correct'] = 'on'
-    #     self.data['answers-1-is_correct'] = 'on'
-    #     self.data['answers-2-is_correct'] = 'on'
-    #     self.data['answers-3-is_correct'] = 'on'
-    #     formset = self.AnswerFormSet(self.data, instance=self.question)
-    #     self.assertEqual(formset.is_valid(), False)
+
+    def test_formset_is_valid_if_is_correct_in_answers(self):
+        formset = self.AnswerFormSet(self.data, instance=self.question)
+        self.assertEqual(formset.is_valid(), True)
+
+    def test_formset_is_invalid_if_not_is_correct_in_answers(self):
+        self.data['answers-0-is_correct'] = ''
+        formset = self.AnswerFormSet(self.data, instance=self.question)
+        self.assertEqual(formset.is_valid(), False)
+
+    def test_formset_is_invalid_if_all_is_correct_in_answers(self):
+        self.data['answers-0-is_correct'] = 'on'
+        self.data['answers-1-is_correct'] = 'on'
+        self.data['answers-2-is_correct'] = 'on'
+        self.data['answers-3-is_correct'] = 'on'
+        formset = self.AnswerFormSet(self.data, instance=self.question)
+        self.assertEqual(formset.is_valid(), False)
 
     def test_formset_is_valid_if_answers_number_is_in_range(self):
         if Question.ANSWER_MIN_LIMIT > self.data['answers-TOTAL_FORMS'] < Question.ANSWER_MAX_LIMIT:

@@ -5,6 +5,13 @@ from django.forms import BaseInlineFormSet, HiddenInput, ModelForm, modelformset
 from testify.models import Answer, Question
 
 
+class AnswerAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Answer
+        fields = '__all__'
+
+
 class AnswerForm(ModelForm):
     is_selected = forms.BooleanField(required=False)
     id = forms.IntegerField(required=False) # noqa
