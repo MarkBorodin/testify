@@ -1,7 +1,9 @@
+from accounts.models import User
+
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from testify.models import Test
+from testify.models import Test, TestResult
 
 
 class TestDetailsViewTest(TestCase):
@@ -28,6 +30,7 @@ class TestRunnerView(TestCase):
     def setUp(self):
         self.client = Client()
         self.client.login(username='superadmin', password='superadmin')
+        self.user = User.objects.get(pk=11)
 
     def test_basic_flow(self):
         response = self.client.get(reverse('tests:start', kwargs={'id': self.TEST_ID}))
@@ -65,6 +68,19 @@ class TestRunnerView(TestCase):
 
         test = Test.objects.get(id=self.TEST_ID)
 
+        TestResult.objects.get_or_create(
+            user=self.user,
+            state=TestResult.STATE.NEW,
+            test=test,
+            defaults=dict(
+                num_correct_answers=0,
+                num_incorrect_answers=0,
+                current_order_number=1
+            )
+        )
+
+        test_result = TestResult.objects.last()
+
         for question in test.questions.order_by('order_number'):
             next_url = reverse('tests:next', args=(self.TEST_ID,))
             response = self.client.get(next_url)
@@ -86,22 +102,23 @@ class TestRunnerView(TestCase):
             for answer in answers:
                 if answer.is_correct is True:
                     correct_answers.append(answer)
-            if len(correct_answers) == 1:
-                data['form-0-text'] = correct_answers[0].text
-                data['form-0-is_correct'] = 'on'
-            else:
-                for i in range(len(correct_answers)):
-                    data[f'form-{i}-text'] = correct_answers[i].text
-                    data[f'form-{i}-is_correct'] = 'on'
+
+            for i in range(len(correct_answers)):
+                data[f'form-{i}-text'] = correct_answers[i].text
+                data[f'form-{i}-is_correct'] = 'on'
 
             response = self.client.post(
                 path=next_url,
                 data=data
             )
 
+            test_result.num_correct_answers += 1
+
             if question.order_number < test.questions.count():
                 self.assertRedirects(response, next_url)
             else:
                 self.assertEqual(response.status_code, 200)
+                self.assertEqual(test_result.points(), test.questions.count())
+                self.assertNotEqual(test_result.user.rating, test_result.user.rating - test_result.points())
 
         self.assertContains(response, 'Congratulations!!!')
