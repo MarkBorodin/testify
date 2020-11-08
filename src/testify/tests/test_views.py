@@ -68,17 +68,6 @@ class TestRunnerView(TestCase):
 
         test = Test.objects.get(id=self.TEST_ID)
 
-        TestResult.objects.get_or_create(
-            user=self.user,
-            state=TestResult.STATE.NEW,
-            test=test,
-            defaults=dict(
-                num_correct_answers=0,
-                num_incorrect_answers=0,
-                current_order_number=1
-            )
-        )
-
         old_user_rating = self.user.rating # noqa
 
         for question in test.questions.order_by('order_number'):
@@ -98,14 +87,16 @@ class TestRunnerView(TestCase):
                 'form-MAX_NUM_FORMS': 1000,
             }
 
-            correct_answers = []
+            # correct_answers = []
             for answer in answers:
                 if answer.is_correct is True:
-                    correct_answers.append(answer)
+                    # correct_answers.append(answer)
+                    data[f'form-0-text'] = answer.text # noqa
+                    data[f'form-0-is_correct'] = 'on' # noqa
 
-            for i in range(len(correct_answers)):
-                data[f'form-{i}-text'] = correct_answers[i].text
-                data[f'form-{i}-is_correct'] = 'on'
+            # for i in range(len(correct_answers)):
+            #     data[f'form-{i}-text'] = correct_answers[i].text
+            #     data[f'form-{i}-is_correct'] = 'on'
 
             response = self.client.post(
                 path=next_url,
@@ -117,6 +108,8 @@ class TestRunnerView(TestCase):
             #     state=TestResult.STATE.NEW,
             #     test=test
             # )
+            test_result = TestResult.objects.last() # noqa
+
             if question.order_number < test.questions.count():
                 self.assertRedirects(response, next_url)
             else:

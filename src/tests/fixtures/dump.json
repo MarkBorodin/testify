@@ -188,9 +188,9 @@
     "model": "testify.answer",
     "pk": 5,
     "fields": {
-      "text": "6",
+      "text": "8",
       "question": 4,
-      "is_correct": false
+      "is_correct": true
     }
   },
   {
@@ -206,9 +206,9 @@
     "model": "testify.answer",
     "pk": 7,
     "fields": {
-      "text": "8",
+      "text": "10",
       "question": 4,
-      "is_correct": true
+      "is_correct": false
     }
   },
   {
@@ -224,9 +224,9 @@
     "model": "testify.answer",
     "pk": 9,
     "fields": {
-      "text": "8",
+      "text": "6",
       "question": 2,
-      "is_correct": false
+      "is_correct": true
     }
   },
   {
@@ -244,7 +244,7 @@
     "fields": {
       "text": "6",
       "question": 2,
-      "is_correct": true
+      "is_correct": false
     }
   },
   {
@@ -296,18 +296,18 @@
     "model": "testify.answer",
     "pk": 17,
     "fields": {
-      "text": "5",
+      "text": "6",
       "question": 9,
-      "is_correct": false
+      "is_correct": true
     }
   },
   {
     "model": "testify.answer",
     "pk": 18,
     "fields": {
-      "text": "6",
+      "text": "50",
       "question": 9,
-      "is_correct": true
+      "is_correct": false
     }
   },
   {
