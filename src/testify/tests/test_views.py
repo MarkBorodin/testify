@@ -79,7 +79,7 @@ class TestRunnerView(TestCase):
             )
         )
 
-        old_user_rating = self.user.rating
+        old_user_rating = self.user.rating # noqa
 
         for question in test.questions.order_by('order_number'):
             next_url = reverse('tests:next', args=(self.TEST_ID,))
