@@ -1,3 +1,3 @@
-##!/usr/bin/ bash
-#
-#python manage.py runserver
+#!/bin/bash
+
+python project/manage.py runserver 0:${PORT}

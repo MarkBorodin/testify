@@ -8,9 +8,9 @@ WORKDIR /srv
 
 COPY ./src ./project
 COPY ./requirements.txt ./
-COPY ./runserver.sh ./
+COPY ./run_server.sh ./
 
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "manage.py", "runserver", "0:8000"]
+CMD ["./run_server.sh"]
