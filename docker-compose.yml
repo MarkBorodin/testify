@@ -1,0 +1,14 @@
+version '3'
+
+services:
+
+  backend:
+    build: ./
+    container_name: backend
+    restart: always
+    ports:
+      - 8010:8000
+    volumes:
+      - ./src:/srv/project
+    entrypoint:
+      - PORT=8000
