@@ -87,34 +87,30 @@ class TestRunnerView(TestCase):
                 'form-MAX_NUM_FORMS': 1000,
             }
 
-            # correct_answers = []
+            correct_answers = []
             for answer in answers:
                 if answer.is_correct is True:
-                    # correct_answers.append(answer)
-                    data[f'form-0-text'] = answer.text # noqa
-                    data[f'form-0-is_correct'] = 'on' # noqa
+                    correct_answers.append(answer)
+                else:
+                    correct_answers.append(False)
 
-            # for i in range(len(correct_answers)):
-            #     data[f'form-{i}-text'] = correct_answers[i].text
-            #     data[f'form-{i}-is_correct'] = 'on'
+            for answer in correct_answers:
+                if answer is not False:
+                    data[f'form-{correct_answers.index(answer)}-text'] = answer.text
+                    data[f'form-{correct_answers.index(answer)}-is_selected'] = 'on'
 
             response = self.client.post(
                 path=next_url,
                 data=data
             )
 
-            # test_result = TestResult.objects.get(
-            #     user=self.user,
-            #     state=TestResult.STATE.NEW,
-            #     test=test
-            # )
-            test_result = TestResult.objects.last() # noqa
+            test_result = TestResult.objects.last()
 
             if question.order_number < test.questions.count():
                 self.assertRedirects(response, next_url)
             else:
                 self.assertEqual(response.status_code, 200)
-                # self.assertEqual(test_result.points(), test.questions.count())
-                # self.assertEqual(self.user.rating, old_user_rating + test_result.points())
+                self.assertEqual(test_result.points(), test.questions.count())
+                self.assertEqual(test_result.user.rating, old_user_rating + test_result.points())
 
         self.assertContains(response, 'Congratulations!!!')
