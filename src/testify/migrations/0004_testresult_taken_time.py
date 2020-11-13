@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='testresult',
             name='taken_time',
-            field=models.TimeField(blank=True, null=True),
+            field=models.DateTimeField(blank=True, null=True),
         ),
     ]

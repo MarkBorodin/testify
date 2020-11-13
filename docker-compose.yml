@@ -1,13 +1,49 @@
 version: '3'
 
 services:
+
   backend:
     build: ./
-    container_name: backend
+#    container_name: backend
     restart: always
+    command: ./commands/run_server.sh
     ports:
       - 8010:8000
     volumes:
       - ./src:/srv/project
+      - ./commands:/srv/project/commands
+      - static_content:/var/www/testify
+    env_file:
+      - .env
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: "postgres:12"
+    env_file:
+      - .env
+    restart: always
     environment:
-      - PORT=8000
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5444:5432
+
+#
+#  nginx:
+#    env_file:
+#      - .env
+#    image: nginx:1.19-alpine
+#    volumes:
+##      - ./nginx:/etc/nginx/conf.d
+#      - static_content:/var/www/testify
+#    ports:
+#      - 81:80
+#      - 444:443
+#    depends_on:
+#      - backend
+
+volumes:
+  pgdata: {}
+  static_content: {}

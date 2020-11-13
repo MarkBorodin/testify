@@ -4,3 +4,4 @@ venv/
 /coverage.data
 /coverage/
 /htmlcov/
+.env
