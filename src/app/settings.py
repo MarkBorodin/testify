@@ -142,3 +142,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media/'
+
+STATIC_ROOT = '/var/www/testify/static'

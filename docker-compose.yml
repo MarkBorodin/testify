@@ -8,7 +8,7 @@ services:
     restart: always
     command: ./commands/run_server.sh
     ports:
-      - 8010:8000
+      - 8010:${PORT}
     volumes:
       - ./src:/srv/project
       - ./commands:/srv/project/commands
@@ -30,19 +30,19 @@ services:
     ports:
       - 5444:5432
 
-#
-#  nginx:
-#    env_file:
-#      - .env
-#    image: nginx:1.19-alpine
-#    volumes:
-##      - ./nginx:/etc/nginx/conf.d
-#      - static_content:/var/www/testify
-#    ports:
-#      - 81:80
-#      - 444:443
-#    depends_on:
-#      - backend
+  nginx:
+    env_file:
+      - .env
+    image: nginx:1.19-alpine
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_content:/var/www/testify
+    ports:
+      - 80:80
+      - 444:443
+    depends_on:
+      - backend
+
 
 volumes:
   pgdata: {}
