@@ -19,3 +19,8 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+# handler404 = 'testify.views.error_404'
+# handler500 = 'testify.views.error_500'
+# handler403 = 'testify.views.error_403'
+# handler400 = 'testify.views.error_400'

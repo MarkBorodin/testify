@@ -15,6 +15,7 @@ SECRET_KEY = 'i_6cg36f9sikg81yrt2fgyi&k5t6(9h58^pw4_o1c5oa*hgpqh'
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -49,6 +50,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'app.urls'
+
 
 TEMPLATES = [
     {
