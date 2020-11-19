@@ -10,8 +10,3 @@ urlpatterns = [
     path('<int:id>/start/', TestRunnerView.as_view(), name='start'),
     path('<int:id>/next/', QuestionView.as_view(), name='next'),
 ]
-
-# handler404 = 'testify.views.error_404'
-# handler500 = 'testify.views.error_500'
-# handler403 = 'testify.views.error_403'
-# handler400 = 'testify.views.error_400'
