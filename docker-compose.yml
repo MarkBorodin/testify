@@ -6,13 +6,15 @@ services:
     build: ./
 #    container_name: backend
     restart: always
-    command: ./commands/run_server.sh
+    command: ./commands/${RUN_MODE}.sh
     ports:
       - 8010:${PORT}
     volumes:
       - ./src:/srv/project
       - ./commands:/srv/project/commands
       - static_content:/var/www/testify
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.${RUN_MODE}
     env_file:
       - .env
     depends_on:
