@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from testify.forms import AnswerFormSet
-from testify.models import Question, Test, TestResult, UserResponse
+from testify.models import Question, Test, TestResult
 
 
 class TestListView(LoginRequiredMixin, ListView):
@@ -132,41 +132,19 @@ class QuestionView(LoginRequiredMixin, View):
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
             test_result.save()
-            user_responses = UserResponse.objects.filter(
-                test_result=test_result.id
-            )
-            questions = Question.objects.filter(
-                test=id
-            )
+            # user_responses = UserResponse.objects.filter(
+            #     test_result=test_result.id
+            # )
+            # questions = Question.objects.filter(test=id)
 
             return render(
                 request=request,
                 template_name='finish.html',
                 context={
                     'test_result': test_result,
-                    'user_responses': user_responses,
-                    'questions': questions,
+                    # 'user_responses': user_responses,
+                    # 'questions': questions,
                 }
             )
         else:
             return redirect(reverse('tests:next', args=(id,)))
-
-
-# def error_404(request,  exception):
-#     data = {}
-#     return render(request, '404.html', data)
-#
-#
-# def error_500(request):
-#     data = {}
-#     return render(request, '500.html', data)
-#
-#
-# def error_403(request, exception):
-#     data = {}
-#     return render(request, '403.html', data)
-#
-#
-# def error_400(request,  exception):
-#     data = {}
-#     return render(request, '400.html', data)

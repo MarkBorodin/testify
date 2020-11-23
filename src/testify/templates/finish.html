@@ -62,15 +62,15 @@
         </div>
     </div>
 
-    <div class="col-sm">
-        {% for question in questions %}
-            <h3>For the question: "{{question}}"</h3>
-            {% for user_response in user_responses %}
-                {% if question.id == user_response.question.id %}
-                    <h3>You answered: "{{user_response}}"</h3>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    </div>
+<!--    <div class="col-sm">-->
+<!--        {% for question in questions %}-->
+<!--            <h3>For the question: "{{question}}"</h3>-->
+<!--            {% for user_response in user_responses %}-->
+<!--                {% if question.id == user_response.question.id %}-->
+<!--                    <h3>You answered: "{{user_response}}"</h3>-->
+<!--                {% endif %}-->
+<!--            {% endfor %}-->
+<!--        {% endfor %}-->
+<!--    </div>-->
 
 {% endblock %}

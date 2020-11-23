@@ -8,7 +8,7 @@ class User(AbstractUser):
     image = models.ImageField(null=True, default='default.jpg', upload_to='pics/')
     interests = models.CharField(max_length=128, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    rating = models.SmallIntegerField(null=True, blank=True)
+    rating = models.SmallIntegerField(null=True, blank=True, default=0)
 
     def save(self, *args, **kwargs):
         result = super().save(*args, **kwargs)
