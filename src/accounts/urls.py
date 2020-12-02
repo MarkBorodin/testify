@@ -1,5 +1,5 @@
 from accounts.views import AccountCreateView, AccountListView, AccountLoginView, AccountLogoutView, \
-    AccountPasswordChangeView, AccountUpdateView, LeaderboardListView
+    AccountPasswordChangeView, AccountUpdateView, LeaderboardListView, ContactView
 
 from django.urls import path
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('profile/', AccountUpdateView.as_view(), name='profile'),
     path('password/', AccountPasswordChangeView.as_view(), name='password'),
     path('leaderboard/', LeaderboardListView.as_view(), name='leaderboard'),
+    path('contact_us/', ContactView.as_view(), name='contact_us'),
     ]

@@ -1,11 +1,14 @@
-from accounts.forms import AccountCreateForm, AccountPasswordChangeForm, AccountUpdateForm
+from django.conf import settings
+from django.core.mail import send_mail
+
+from accounts.forms import AccountCreateForm, AccountPasswordChangeForm, AccountUpdateForm, ContactUs
 from accounts.models import User
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, FormView
 
 
 class AccountCreateView(CreateView):
@@ -71,3 +74,25 @@ class LeaderboardListView(ListView):
     template_name = 'leaderboard.html'
     context_object_name = 'users'
     queryset = User.objects.filter(rating__gt=0).order_by('-rating')
+
+
+class ContactView(LoginRequiredMixin, FormView):
+    template_name = 'contact_us.html'
+    extra_context = {'title': 'Send us message!'}
+    success_url = reverse_lazy('core:index')
+    form_class = ContactUs
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            send_mail(
+                subject=form.cleaned_data['subject'],
+                message=form.cleaned_data['message'],
+                from_email=request.user.email,
+                recipient_list=[settings.EMAIL_HOST_RECIPIENT],
+                fail_silently=False,
+            )
+            messages.success(self.request, 'you have successfully sent message')
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

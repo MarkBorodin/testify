@@ -1,3 +1,5 @@
+from django.forms import Form, fields, forms
+
 from accounts.models import User
 
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm, UserCreationForm
@@ -17,3 +19,8 @@ class AccountUpdateForm(UserChangeForm):
 
 class AccountPasswordChangeForm(PasswordChangeForm):
     pass
+
+
+class ContactUs(Form):
+    subject = fields.CharField(max_length=256, empty_value='Message from Testify')
+    message = fields.CharField()
