@@ -1,5 +1,5 @@
 from accounts.views import AccountCreateView, AccountListView, AccountLoginView, AccountLogoutView, \
-    AccountPasswordChangeView, AccountUpdateView, LeaderboardListView, ContactView
+    AccountPasswordChangeView, AccountUpdateView, ContactView, LeaderboardListView
 
 from django.urls import path
 

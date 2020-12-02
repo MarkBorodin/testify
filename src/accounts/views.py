@@ -1,14 +1,13 @@
-from django.conf import settings
-from django.core.mail import send_mail
-
 from accounts.forms import AccountCreateForm, AccountPasswordChangeForm, AccountUpdateForm, ContactUs
 from accounts.models import User
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.core.mail import send_mail
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, FormView, ListView, UpdateView
 
 
 class AccountCreateView(CreateView):

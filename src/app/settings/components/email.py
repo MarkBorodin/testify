@@ -1,5 +1,7 @@
+import os # noqa
+
 from app.settings.components.base import * # noqa
-import os
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
