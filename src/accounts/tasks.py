@@ -1,16 +1,15 @@
-import datetime
-import time
+from accounts.models import User
 
 from celery import shared_task
+
+from django.conf import settings
 from django.core.mail import send_mail
 
-from accounts.models import User
-from django.conf import settings
 from testify.models import TestResult
 
 
 @shared_task
-def check_tests(id):
+def check_tests(id): # noqa
     result = TestResult.objects.filter(user=id)
     if result.count() == 0:
         user = User.objects.get(id=id)

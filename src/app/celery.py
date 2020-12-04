@@ -1,4 +1,5 @@
 import os
+
 from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', f"app.settings.{os.environ.get('RUN_MODE', 'dev')}")

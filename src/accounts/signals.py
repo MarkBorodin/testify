@@ -1,10 +1,11 @@
 import datetime
 
+from accounts.models import User
+from accounts.tasks import check_tests
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from accounts.models import User
-from accounts.tasks import check_tests
 from testify.models import TestResult
 
 
@@ -21,4 +22,4 @@ def update_rating(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def email_new_user(sender, instance, created, **kwargs):
     if created:
-        check_tests.apply_async(args=(instance.id,), eta=datetime.datetime.now() + datetime.timedelta(minutes=5))
+        check_tests.apply_async(args=(instance.id,), eta=datetime.datetime.now() + datetime.timedelta(hours=24))
