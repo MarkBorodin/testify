@@ -7,7 +7,7 @@ from django.forms import Form, fields
 class AccountCreateForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = User
-        fields = ['username', 'password1', 'password2']
+        fields = ['username', 'password1', 'password2', 'email']
 
 
 class AccountUpdateForm(UserChangeForm):
