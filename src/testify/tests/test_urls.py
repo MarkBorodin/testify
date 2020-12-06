@@ -1,8 +1,10 @@
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
+from testify.tests.test_base import TestCaseBase
 
-class TestUrls(TestCase):
+
+class TestUrls(TestCaseBase):
 
     fixtures = [
         'tests/fixtures/dump.json'

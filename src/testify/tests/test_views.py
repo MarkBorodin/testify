@@ -1,12 +1,13 @@
 from accounts.models import User
 
-from django.test import Client, TestCase
+from django.test import Client
 from django.urls import reverse
 
 from testify.models import Test, TestResult
+from testify.tests.test_base import TestCaseBase
 
 
-class TestDetailsViewTest(TestCase):
+class TestDetailsViewTest(TestCaseBase):
     fixtures = [
         'tests/fixtures/dump.json',
     ]
@@ -21,7 +22,7 @@ class TestDetailsViewTest(TestCase):
         self.assertIsNotNone(response.context_data.get('test'))
 
 
-class TestRunnerView(TestCase):
+class TestRunnerView(TestCaseBase):
     fixtures = [
         'tests/fixtures/dump.json',
     ]

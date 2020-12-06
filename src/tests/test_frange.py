@@ -1,4 +1,4 @@
-from unittest import TestCase
+from testify.tests.test_base import TestCaseBase
 
 
 def frange_gen(start, stop=None, step=None):
@@ -45,7 +45,7 @@ class frange_iter(object): # noqa
             raise StopIteration
 
 
-class TestFrange(TestCase):
+class TestFrange(TestCaseBase):
 
     def tests_frange_gen(self):
 

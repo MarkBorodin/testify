@@ -1,9 +1,8 @@
-from django.test import TestCase
-
 from testify.models import Test
+from testify.tests.test_base import TestCaseBase
 
 
-class TestResultModelTests(TestCase):
+class TestResultModelTests(TestCaseBase):
     fixtures = [
         'tests/fixtures/dump.json',
     ]

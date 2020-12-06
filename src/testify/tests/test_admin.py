@@ -1,11 +1,11 @@
 from django.forms.models import inlineformset_factory
-from django.test import TestCase
 
 from testify.forms import AnswerAdminForm, AnswersInlineFormSet, QuestionForm, QuestionsInlineFormSet
 from testify.models import Answer, Question, Test
+from testify.tests.test_base import TestCaseBase
 
 
-class AdminQuestionsInlineFormSetTest(TestCase):
+class AdminQuestionsInlineFormSetTest(TestCaseBase):
     fixtures = [
         'tests/fixtures/dump.json',
     ]
@@ -56,7 +56,7 @@ class AdminQuestionsInlineFormSetTest(TestCase):
         # self.assertEqual(formset.is_valid(), False)
 
 
-class AdminAnswerInlineFormSetTest(TestCase):
+class AdminAnswerInlineFormSetTest(TestCaseBase):
     fixtures = [
         'tests/fixtures/dump.json',
     ]
