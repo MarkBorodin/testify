@@ -10,5 +10,5 @@ run:
   script:
     - pip install -r requirements.txt
     - flake8 .
-#    - cd src
-#    - python manage.py test --settings="app.settings.test"
+    - cd src
+    - python manage.py test --settings="app.settings.test"
