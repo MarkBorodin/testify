@@ -5,7 +5,7 @@
 
 clone repository:
 ```
-git clone https://gitlab.com/UlrichKh/testify.git
+git clone https://gitlab.com/MarkBorodin/testify.git
 ```
 move to folder "testify":
 ```
