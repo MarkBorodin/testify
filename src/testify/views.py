@@ -5,13 +5,26 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from testify.forms import AnswerFormSet
-from testify.models import Question, Test, TestResult
+from testify.models import Answer, Question, Test, TestResult, UserResponse
 
 
 class TestListView(LoginRequiredMixin, ListView):
     model = Test
     template_name = 'list.html'
     context_object_name = 'tests'
+
+
+class ResultListView(LoginRequiredMixin, ListView):
+    model = Test
+    template_name = 'results.html'
+    context_object_name = 'tests'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["user"] = self.request.user
+        context["test_results"] = TestResult.objects.filter(user=user)
+        return context
 
 
 class TestDetailView(LoginRequiredMixin, DetailView):
@@ -95,15 +108,15 @@ class QuestionView(LoginRequiredMixin, View):
         answers = question.answers.all()
         form_set = AnswerFormSet(data=request.POST)
 
-        # for form in form_set:
-        #     if 'is_selected' in form.changed_data:
-        #         answer = Answer.objects.get(id=form.instance.id)
-        #         user_response = UserResponse.objects.create(
-        #             test_result=test_result,
-        #             question=question,
-        #             user_response=answer,
-        #         )
-        #         user_response.save()
+        for form in form_set:
+            if 'is_selected' in form.changed_data:
+                answer = Answer.objects.get(id=form.instance.id)
+                user_response = UserResponse.objects.create(
+                    test_result=test_result,
+                    question=question,
+                    user_response=answer,
+                )
+                user_response.save()
 
         possible_choices = len(form_set.forms)
         selected_choices = [
@@ -132,18 +145,18 @@ class QuestionView(LoginRequiredMixin, View):
         if order_number == question.test.questions.count():
             test_result.state = TestResult.STATE.FINISHED
             test_result.save()
-            # user_responses = UserResponse.objects.filter(
-            #     test_result=test_result.id
-            # )
-            # questions = Question.objects.filter(test=id)
+            user_responses = UserResponse.objects.filter(
+                test_result=test_result.id
+            )
+            questions = Question.objects.filter(test=id)
 
             return render(
                 request=request,
                 template_name='finish.html',
                 context={
                     'test_result': test_result,
-                    # 'user_responses': user_responses,
-                    # 'questions': questions,
+                    'user_responses': user_responses,
+                    'questions': questions,
                 }
             )
         else:

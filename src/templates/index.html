@@ -7,16 +7,20 @@
 
 {% block content %}
 
+<!--    <form>-->
+<!--        <input formaction="{% url 'accounts:leaderboard' %}" type="submit" class="btn btn-info" value="Leaderboard">-->
+<!--    </form><br>-->
+
     <form>
-        <input formaction="{% url 'accounts:leaderboard' %}" type="submit" class="btn btn-info" value="Leaderboard">
+        <input formaction="{% url 'tests:list' %}" type="submit" class="btn btn-primary btn-lg btn-block" value="Tests">
     </form><br>
 
     <form>
-        <input formaction="{% url 'tests:list' %}" type="submit" class="btn btn-info" value="Tests">
+        <input formaction="{% url 'tests:results' %}" type="submit" class="btn btn-secondary btn-lg btn-block" value="My results">
     </form><br>
 
-    <form>
-        <input formaction="{% url 'accounts:users' %}" type="submit" class="btn btn-info" value="Users">
-    </form>
+<!--    <form>-->
+<!--        <input formaction="{% url 'accounts:users' %}" type="submit" class="btn btn-info" value="Users">-->
+<!--    </form>-->
 
 {% endblock %}

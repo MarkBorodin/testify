@@ -38,7 +38,7 @@ tr:nth-child(even) {
 {%url 'accounts:register' as Register %}
 {%url 'accounts:login' as Login %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-primary bg-light">
     <div class="container">
       <a class="navbar-brand" href="{% url 'core:index' %}">Testify</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,12 +81,12 @@ tr:nth-child(even) {
                 <li class="nav-item {% if request.path == List %} active {% endif %}">
                     <a class="nav-link" href="{% url 'tests:list' %}">Tests</a>
                 </li>
-                <li class="nav-item {% if request.path == Leaderboard %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
-                </li>
-                <li class="nav-item {% if request.path == Users %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>
-                </li>
+<!--                <li class="nav-item {% if request.path == Leaderboard %} active {% endif %}">-->
+<!--                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item {% if request.path == Users %} active {% endif %}">-->
+<!--                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>-->
+<!--                </li>-->
 
                 <li class="nav-item {% if request.path == Profile %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>

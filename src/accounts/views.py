@@ -62,13 +62,13 @@ class AccountPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy('core:index')
 
 
-class AccountListView(ListView):
+class AccountListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'users-list.html'
     context_object_name = 'users'
 
 
-class LeaderboardListView(ListView):
+class LeaderboardListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'leaderboard.html'
     context_object_name = 'users'
