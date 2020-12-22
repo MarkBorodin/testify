@@ -136,6 +136,7 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.User'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/testify/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]

@@ -123,6 +123,7 @@ class UserResponse(models.Model):
     test_result = models.ForeignKey(to=TestResult, related_name='users_answers', on_delete=models.CASCADE)
     question = models.ForeignKey(to=Question, related_name='users_answers', on_delete=models.CASCADE)
     user_response = models.ForeignKey(to=Answer, related_name='users_answers', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, related_name='users_answers', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.user_response.text

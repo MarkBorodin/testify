@@ -24,6 +24,8 @@ class ResultListView(LoginRequiredMixin, ListView):
         user = self.request.user
         context["user"] = self.request.user
         context["test_results"] = TestResult.objects.filter(user=user)
+        context["user_responses"] = UserResponse.objects.filter(user=user)
+        context['questions'] = Question.objects.all()
         return context
 
 
@@ -115,6 +117,7 @@ class QuestionView(LoginRequiredMixin, View):
                     test_result=test_result,
                     question=question,
                     user_response=answer,
+                    user=request.user
                 )
                 user_response.save()
 

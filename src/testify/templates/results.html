@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block header %}
-    <h1>Your results!!!</h1>
+    <h1>Your results</h1>
 {% endblock %}
 
 {% block content %}
@@ -53,25 +53,31 @@
                         <td></td>
                       </tr>
                       <tr>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    </tbody>
+                        {% for question in questions %}
+                            {% if question.test == test_result.test %}
+                                <td><div class="p-3 mb-2 bg-secondary text-white">For the question: "{{question}}"</div></td>
+                                {% for user_response in user_responses %}
+                                    {% if user_response.test_result == test_result and user_response.question == question %}
+                                        <td><div class="p-3 mb-2 {% if user_response.user_response.is_correct %} bg-success text-white {% else %} bg-danger text-white {% endif %}">You answered: "{{user_response}}"</div></td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
+                    </tr>
+                    </tbody>
                 </table>
-            </div>
-            <div class="col-sm">
-                <div class="d-flex justify-content-center mt-5 mb-5" >
-                    <a href="{% url 'tests:list' %}" type="button" class="btn-lg btn-success">START ANOTHER TEST ▶️</a>
-                </div>
             </div>
         </div>
     </div>
+
+{% endblock %}
 
 <!--    <div class="col-sm">-->
 <!--        {% for question in questions %}-->
 <!--        <div class="p-3 mb-2 bg-secondary text-white">For the question: "{{question}}"</div>-->
 <!--            {% for user_response in user_responses %}-->
+<!--                    user_response.test_result == test_result:-->
 <!--                {% if question.id == user_response.question.id %}-->
 <!--                    <div class="p-3 mb-2 {% if user_response.user_response.is_correct %} bg-success text-white {% else %} bg-danger text-white {% endif %}">You answered: "{{user_response}}"</div><br>-->
 <!--                {% endif %}-->
@@ -79,4 +85,4 @@
 <!--        {% endfor %}-->
 <!--    </div>-->
 
-{% endblock %}
+
