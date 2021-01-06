@@ -9,12 +9,14 @@ from testify.models import Answer, Question, Test, TestResult, UserResponse
 
 
 class TestListView(LoginRequiredMixin, ListView):
+    """show list of tests"""
     model = Test
     template_name = 'list.html'
     context_object_name = 'tests'
 
 
 class ResultListView(LoginRequiredMixin, ListView):
+    """show test result"""
     model = Test
     template_name = 'results.html'
     context_object_name = 'tests'
@@ -30,6 +32,7 @@ class ResultListView(LoginRequiredMixin, ListView):
 
 
 class TestDetailView(LoginRequiredMixin, DetailView):
+    """test details"""
     model = Test
     template_name = 'details.html'
     context_object_name = 'test'
@@ -50,6 +53,7 @@ class TestDetailView(LoginRequiredMixin, DetailView):
 
 
 class TestRunnerView(LoginRequiredMixin, View):
+    """run test"""
 
     def get(self, request, id):  # noqa
         TestResult.objects.get_or_create(
@@ -65,6 +69,7 @@ class TestRunnerView(LoginRequiredMixin, View):
 
 
 class QuestionView(LoginRequiredMixin, View):
+    """show questions in the test, passing the test"""
 
     def get(self, request, id):  # noqa
         test_result = TestResult.objects.filter(

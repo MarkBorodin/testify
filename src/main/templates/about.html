@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>О нас</title>
+{% endblock %}
+
+
+{% block header%}
+    <h3>Информация о нас</h3>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="text-align: center">
+        <h2>Learn English with pleasure.</h2><br>
+        <h4>Изучать английский  в удовольствие!
+            Именно это основа работы школы "Fast English".
+            Давайте познакомимся с основателем:</h4><br>
+
+            <div class="d-flex justify-content-center">
+                <img width="700" height="1000"  src="{% static 'common/img/i1.jpg' %}">
+            </div><br>
+
+            <h4>HI! Меня зовут Аня, и я уже больше 4 лет занимаюсь преподаванием английского языка.
+            За это время я смогла обучить больше 400 учеников ( индивидуально и в группах).
+            По образованию я переводчик английского языка ( закончила КНУ Шевченко, Институт международных отношений в 2019 году).
+            В 2019 году я работала в Польше, в городе Краков (Szkoła językow obcych "Infinity"), проходила повышение квалификации в Варшаве и Кракове.
+            С 2020 года провожу занятия онлайн.
+            Также я сдавала IELTS на уровень B2(2018год) и постоянно прохожу курсы повышения квалификации для преподавателей.</h4><br>
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <img width="1000" height="1000"  src="{% static 'common/img/i2.jpg' %}">
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <img width="1000" height="1000"  src="{% static 'common/img/i3.jpg' %}">
+</div>
+
+{% endblock %}

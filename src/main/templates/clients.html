@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    <title>Клиенты</title>
+{% endblock %}
+
+{% block header%}
+    <h3>Clients</h3>
+{% endblock %}
+
+{% block content %}
+
+    <div class="alert alert-warning mt-1">
+        <h3>Клиенты:</h3><br>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><strong>Имя</strong></td>
+                <td><strong>Фамилия</strong></td>
+                <td><strong>Телефон</strong></td>
+                <td><strong>Почта</strong></td>
+                <td><strong>Возраст</strong></td>
+                <td><strong>Скайп</strong></td>
+                <td><strong>Уровень</strong></td>
+                <td><strong>Чей клиент</strong></td>
+                <td><strong>Редактировать данные</strong></td>
+                <td><strong>Удалить ученика</strong></td>
+            <tr>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.firstname }}</td>
+                <td>{{ client.lastname }}</td>
+                <td>{{ client.phone }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.age }}</td>
+                <td>{{ client.skype }}</td>
+                <td>{{ client.level }}</td>
+                <td>{{ client.whose }}</td>
+                <td>
+                    <form action="{% url 'main:edit_client' client.id %}">{% csrf_token %}
+                        <button class="btn btn-info">Редактировать данные</button>
+                    </form>
+                    <br>
+                </td>
+                <td>
+                    <form action="{% url 'main:delete_client' client.id %}">{% csrf_token %}
+                        <button class="btn btn-warning">Удалить ученика</button>
+                    </form>
+                    <br>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <form method="post">
+    {% csrf_token %}
+        <div class="alert alert-warning mt-4">
+            <h3>Добавить нового клиента</h3><br>
+                {{ form.firstname }}<br>
+                {{ form.lastname }}<br>
+                {{ form.phone }}<br>
+                {{ form.email }}<br>
+                {{ form.age }}<br>
+                {{ form.skype }}<br>
+                <p>Уровень английского:</p>
+                {{ form.level }}<br>
+                <br>
+                <p>Чей клиент:</p>
+                {{ form.whose }}<br>
+                <br>
+            <button type="submit" class="btn btn-success">Добавить ученика</button><br>
+            <br>
+        </div>
+    </form>
+
+    <div class="p-1 m-1">
+        {% include 'includes/pagination.html' %}
+    </div>
+
+{% endblock %}

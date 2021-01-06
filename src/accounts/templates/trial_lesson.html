@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title%}
+    <title>Trial lesson</title>
+{% endblock %}
+
+{% block header%}
+<h3>Запись на пробный урок</h3>
+{% endblock %}
+
+{% block content %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{form|crispy}}
+
+        <input type="submit" class="btn btn-success" value="Send">
+        <a class="btn btn-light" href="{% url 'core:index' %}">Home</a>
+    </form>
+
+   <div class="container" style="text-align: center">
+        <h3><strong>Контакты:</strong></h3>
+            <h5>
+                <strong>Телефон - +380990694581</strong><br>
+                <strong>Почта - annhonch@gmail.com</strong><br>
+                <a href="https://www.instagram.com/annhonch_/">instagram</a><br>
+                <a href="https://t.me/english_polish">telegram</a><br>
+                <a href="https://www.facebook.com/profile.php?id=100004995015220">facebook</a><br>
+
+            </h5><br>
+    </div><br>
+
+{% endblock %}

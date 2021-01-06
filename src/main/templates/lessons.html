@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %}
+    <title>Занятия</title>
+{% endblock %}
+
+{% block header%}
+    <h3>Lessons</h3>
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <form action="{% url 'main:create_lesson' %}">
+            <button class="btn btn-primary btn-lg btn-block">Добавить урок</button> {% csrf_token %}
+        </form>
+    </div>
+    <br>
+    <div>
+        <form action="{% url 'main:lessons_per_month' %}">
+            <button class="btn btn-info btn-lg btn-block">Все занятия за месяц</button> {% csrf_token %}
+        </form>
+    </div>
+    <br>
+
+    <div class="alert alert-warning mt-1">
+        <h3>Занятия сегодня:</h3><br>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><strong>Клиент</strong></td>
+                <td><strong>Дата и время</strong></td>
+                <td><strong>Цена</strong></td>
+                <td><strong>Чей клиент</strong></td>
+                <td><strong>Было ли занятие</strong></td>
+                <td><strong>Редактировать</strong></td>
+                <td><strong>Удалить занятие</strong></td>
+            <tr>
+            {% for lesson in today_lessons %}
+            <tr>
+                <td>{{ lesson.client }}</td>
+                <td>{{ lesson.date }}</td>
+                <td>{{ lesson.price }}</td>
+                <td>{{ lesson.whose }}</td>
+                <td>{{ lesson.was }}</td>
+                <td>
+                    <form action="{% url 'main:edit_lesson' lesson.id %}">
+                        <button class="btn btn-info">Редактировать урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+                <td>
+                    <form action="{% url 'main:delete_lesson' lesson.id %}">
+                        <button class="btn btn-warning">Удалить урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+            </tr>
+            {% endfor %}
+        </table><br>
+    </div>
+
+    <div class="alert alert-warning mt-1">
+        <h3>Занятия завтра:</h3><br>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><strong>Клиент</strong></td>
+                <td><strong>Дата и время</strong></td>
+                <td><strong>Цена</strong></td>
+                <td><strong>Чей клиент</strong></td>
+                <td><strong>Было ли занятие</strong></td>
+                <td><strong>Редактировать</strong></td>
+                <td><strong>Удалить занятие</strong></td>
+            <tr>
+            {% for lesson in tomorrow_lessons %}
+            <tr>
+                <td>{{ lesson.client }}</td>
+                <td>{{ lesson.date }}</td>
+                <td>{{ lesson.price }}</td>
+                <td>{{ lesson.whose }}</td>
+                <td>{{ lesson.was }}</td>
+                <td>
+                    <form action="{% url 'main:edit_lesson' lesson.id %}">
+                        <button class="btn btn-info">Редактировать урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+                <td>
+                    <form action="{% url 'main:delete_lesson' lesson.id %}">
+                        <button class="btn btn-warning">Удалить урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+            </tr>
+            {% endfor %}
+        </table><br>
+    </div>
+
+<h3>Занятия на неделю:</h3><br>
+
+{% for item in querysets %}
+    <div class="alert alert-warning mt-1">
+        <h3>{{item.day_of_week}}</h3><br>
+            <table border="1" width="100%" cellpadding="5">
+                <tr>
+                    <td><strong>Клиент</strong></td>
+                    <td><strong>Дата и время</strong></td>
+                    <td><strong>Цена</strong></td>
+                    <td><strong>Чей клиент</strong></td>
+                    <td><strong>Было ли занятие</strong></td>
+                    <td><strong>Редактировать</strong></td>
+                    <td><strong>Удалить занятие</strong></td>
+                <tr>
+                {% for lesson in item.lessons %}
+                <tr>
+                    <td>{{ lesson.client }}</td>
+                    <td>{{ lesson.date }}</td>
+                    <td>{{ lesson.price }}</td>
+                    <td>{{ lesson.whose }}</td>
+                    <td>{{ lesson.was }}</td>
+                    <td>
+                        <form action="{% url 'main:edit_lesson' lesson.id %}">
+                            <button class="btn btn-info">Редактировать урок</button> {% csrf_token %}
+                        </form>
+                        <br>
+                    </td>
+                    <td>
+                        <form action="{% url 'main:delete_lesson' lesson.id %}">
+                            <button class="btn btn-warning">Удалить урок</button> {% csrf_token %}
+                        </form>
+                        <br>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table><br>
+    </div>
+
+{% endfor %}
+
+
+{% endblock %}

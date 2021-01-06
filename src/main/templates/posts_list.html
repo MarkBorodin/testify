@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    <title>Статьи</title>
+{% endblock %}
+
+{% block header%}
+        <h3>Информация о изучении английского языка</h3>
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_superuser %}
+        <div>
+            <form action="{% url 'main:make_post' %}">
+                <button class="btn btn-primary btn-lg btn-block">Управление постами</button> {% csrf_token %}
+            </form>
+        </div>
+        <br>
+    {% endif %}
+
+    <div class="container">
+
+        <h1>Полезные статьи о изучении английского языка:</h1><br>
+
+        {% for post in posts %}
+                <h2><a href="{% url 'main:create_comment' post.id %}">{{post.title}}</a></h2><br>
+                <h5>{{post.content|linebreaks}}</h5><br>
+                <img width="1100" height="900" src=" {{ post.image.url }} "><br>
+                <br>
+        <h5>Комментарии к статье:</h5><br>
+            {% for comment in comments %}
+                {% if comment.post_id == post.id %}
+                    <div class="alert alert-warning mt-1">
+                        <p>{{comment.comment_text}}</p>
+                        <p>{{comment.comment_date}}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        <form action="{% url 'main:create_comment' post.id %}">
+            <button class="btn btn-info">Добавить комментарий</button>
+        </form><br><br>
+
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -14,6 +14,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
     path('testify/', include('testify.urls')),
+    path('main/', include('main.urls')),
 
     # API
     path(f'{API_PREFIX}/testify/', include('testify.api.urls')),

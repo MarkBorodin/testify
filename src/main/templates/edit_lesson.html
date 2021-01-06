@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    <title>Редактировать</title>
+{% endblock %}
+
+{% block header%}
+    <h3>Edit lesson</h3>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-warning mt-4">
+    <h1>Редактировать занятие</h1>
+        <form method="post">{% csrf_token %}
+            <h4>Выберите клиента:</h4>
+            {{ form.client }}<br>
+            <br>
+            <h4>Дата и время занятия:</h4>
+            {{ form.date }}
+                <script>
+                    $(function () {
+                    $("#id_date").datetimepicker({
+                    format: 'd/m/Y H:i',
+                    });
+                    });
+                </script>
+            <br><br>
+            <h4>Цена:</h4>
+            {{ form.price }}<br>
+            <br>
+            <h4>Чей клиент:</h4>
+            {{ form.whose }}<br>
+            <br>
+            <h4>Было ли занятие:</h4>
+            {{ form.was }}<br>
+            <br>
+            <button type="submit" class="btn btn-success">Изменить данные</button><br>
+            <br>
+        </form><br>
+    <p><a href="{% url 'main:lessons' %}">Вернуться назад</a></p>
+    </div>
+{% endblock %}

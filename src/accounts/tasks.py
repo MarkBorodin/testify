@@ -20,3 +20,14 @@ def check_tests(id): # noqa
             recipient_list=[user.email],
             fail_silently=False,
         )
+
+
+@shared_task
+def trial_lesson_email(subject, message, from_email, recipient_list, fail_silently):
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=from_email,
+        recipient_list=recipient_list,
+        fail_silently=fail_silently,
+    )

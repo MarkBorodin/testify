@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
 {% block title%}
-    <title>Tests</title>
+    <title>FAST ENGLISH</title>
 {% endblock %}
 <style type="text/css">
 body {
@@ -48,7 +59,7 @@ tr:nth-child(even) {
 
 <nav class="navbar navbar-expand-lg navbar-primary bg-light">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'core:index' %}">Testify</a>
+      <a class="navbar-brand" href="{% url 'core:index' %}">FAST ENGLISH</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -82,13 +93,30 @@ tr:nth-child(even) {
     <!--      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
     <!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
     <!--    </form>-->
-            <ul class="navbar-nav ">
+            <ul class="navbar-nav">
 
                 {% if user.is_authenticated %}
 
                 <li class="nav-item {% if request.path == List %} active {% endif %}">
                     <a class="nav-link" href="{% url 'tests:list' %}">Tests</a>
                 </li>
+
+                <li class="nav-item {% if request.path == List %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'tests:results' %}">My results</a>
+                </li>
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:posts' %}">Posts</a>
+                </li>
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:courses' %}">Courses</a>
+                </li>
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:about' %}">About</a>
+                </li>
+
 <!--                <li class="nav-item {% if request.path == Leaderboard %} active {% endif %}">-->
 <!--                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>-->
 <!--                </li>-->
@@ -96,12 +124,8 @@ tr:nth-child(even) {
 <!--                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>-->
 <!--                </li>-->
 
-                <li class="nav-item {% if request.path == Profile %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
-                </li>
-
-                <li class="img-circle.vert">
-                    <img class="rounded-circle p-1 m-1" width="40" height="40" src=" {{ user.image.url }} ">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:trial_lesson' %}">Trial lesson</a>
                 </li>
 
                 <li class="nav-item">
@@ -112,6 +136,14 @@ tr:nth-child(even) {
                     <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
                 </li>
 
+                <li class="nav-item {% if request.path == Profile %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
+                </li>
+
+                <li class="img-circle.vert">
+                    <img class="rounded-circle p-1 m-1" width="40" height="40" src=" {{ user.image.url }} ">
+                </li>
+
                 {% else %}
 
                 <li class="nav-item {% if request.path == Register %} active {% endif %}">
@@ -120,6 +152,21 @@ tr:nth-child(even) {
 
                 <li class="nav-item {% if request.path == Login %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                </li>
+
+
+                {% endif %}
+
+                {% if user.is_superuser %}
+
+                <li>
+                    <a class="nav-link" href="{% url 'main:lessons' %}">lessons</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'main:clients' %}">clients</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="{% url 'admin:index' %}">admin</a>
                 </li>
 
                 {% endif %}
@@ -135,13 +182,13 @@ tr:nth-child(even) {
 <div class="container">
     <div class="border border-white rounded-pill shadow p-3 mb-5 mt-5 bg-white rounded text-center">
         {% block header %}
-            <h3>Welcome</h3>
         {% endblock %}
     </div>
+    {% block video %}
+    {% endblock %}
 
     {% block content %}
     {% endblock %}
 </div>
-
 </body>
 </html>

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'testify',
     'core',
     'accounts',
+    'main',
 
 ]
 
@@ -137,6 +138,7 @@ AUTH_USER_MODEL = 'accounts.User'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/testify/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -144,4 +146,4 @@ STATICFILES_DIRS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = 'media/'
+MEDIA_ROOT = '/var/www/testify/media/'

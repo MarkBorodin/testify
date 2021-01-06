@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %}
+    <title>Занятия</title>
+{% endblock %}
+
+{% block header%}
+    <h3>Lessons</h3>
+{% endblock %}
+
+{% block content %}
+
+    <div class="alert alert-warning mt-1">
+        <h3>Все занятия:</h3><br>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><strong>Клиент</strong></td>
+                <td><strong>Дата и время</strong></td>
+                <td><strong>Цена</strong></td>
+                <td><strong>Чей клиент</strong></td>
+                <td><strong>Было ли занятие</strong></td>
+                <td><strong>Редактировать</strong></td>
+                <td><strong>Удалить занятие</strong></td>
+            <tr>
+            {% for lesson in this_month_lessons %}
+            <tr>
+                <td>{{ lesson.client }}</td>
+                <td>{{ lesson.date }}</td>
+                <td>{{ lesson.price }}</td>
+                <td>{{ lesson.whose }}</td>
+                <td>{{ lesson.was }}</td>
+                <td>
+                    <form action="{% url 'main:edit_lesson' lesson.id %}">
+                        <button class="btn btn-info">Редактировать урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+                <td>
+                    <form action="{% url 'main:delete_lesson' lesson.id %}">
+                        <button class="btn btn-warning">Удалить урок</button> {% csrf_token %}
+                    </form>
+                    <br>
+                </td>
+            </tr>
+            {% endfor %}
+        </table><br>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><p>Всего занятий  за месяц:</p></td>
+                <td>{{ sum_this_month_lessons }}</td>
+            </tr>
+            </table>
+    </div>
+
+    <br>
+        <p style="text-align: center"><a href="{% url 'main:lessons' %}">Вернуться назад</a></p>
+    <br>
+
+    <div class="p-1 m-1">
+        {% include 'includes/pagination.html' %}
+    </div>
+
+{% endblock %}

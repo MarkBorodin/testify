@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %}
+    <title>Edit post</title>
+{% endblock %}
+
+{% block header%}
+        <h3>Edit post</h3>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-warning mt-4" style="text-align: center">
+    <h1>Правки статьи</h1>
+        <form action="" method="post" enctype='multipart/form-data'>
+             {% csrf_token %}
+             {{form|crispy}}
+              <br>
+              <button type="submit" class="btn btn-success">Внести правки</button><br>
+        </form><br>
+        <form action="{% url 'main:posts' %}">
+            <button class="btn btn-info">Вернуться назад</button>
+        </form>
+    </div>
+{% endblock %}

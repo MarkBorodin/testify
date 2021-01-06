@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
-
-{% block header %}
-    <h3>Navigation</h3>
-{% endblock %}
+{% load static %}
 
 
-{% block content %}
+    {% block video %}
+        <div class="banner">
+        <link rel="stylesheet" href="{% static 'common/img/style.css' %}">
+        <video src="{% static 'common/img/Letters.mp4' %}" autoplay muted loop></video>
+            <div id="fast_english" class="content" style="width: 1000px; height: 1000px;">
+                <h2 style="margin: 0; padding: 0; font-size: 6em; text-transform: uppercase; ">Fast English</h2><br>
+            </div>
+        </div>
+    {% endblock %}
+
 
 <!--    <form>-->
 <!--        <input formaction="{% url 'accounts:leaderboard' %}" type="submit" class="btn btn-info" value="Leaderboard">-->
 <!--    </form><br>-->
 
-    <form>
-        <input formaction="{% url 'tests:list' %}" type="submit" class="btn btn-primary btn-lg btn-block" value="Tests">
-    </form><br>
+<!--    <form>-->
+<!--        <input formaction="{% url 'tests:list' %}" type="submit" class="btn btn-primary btn-lg btn-block" value="Tests">-->
+<!--    </form><br>-->
 
-    <form>
-        <input formaction="{% url 'tests:results' %}" type="submit" class="btn btn-secondary btn-lg btn-block" value="My results">
-    </form><br>
+<!--    <form>-->
+<!--        <input formaction="{% url 'tests:results' %}" type="submit" class="btn btn-secondary btn-lg btn-block" value="My results">-->
+<!--    </form><br>-->
 
 <!--    <form>-->
 <!--        <input formaction="{% url 'accounts:users' %}" type="submit" class="btn btn-info" value="Users">-->
 <!--    </form>-->
-
-{% endblock %}

@@ -8,3 +8,7 @@ from app.settings.components.rest import * # noqa
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']
+
+STATIC_ROOT = '/var/www/testify/static'
+
+MEDIA_ROOT = '/var/www/testify/media'

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>Создать статью</title>
+{% endblock %}
+
+{% block header%}
+    <h3>Make post</h3>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="text-align: center">
+        <h1>Создать статью</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form|crispy}}
+            <br>
+            <button type="submit" class="btn btn-success">Добавить</button><br>
+            <br>
+        </form><br>
+    </div>
+
+    <div class="container" style="text-align: center">
+        <h1>Статьи:</h1><br>
+        {% for post in posts %}
+            <div class="alert alert-warning mt-4">
+                <h2>{{post.title}}</h2><br>
+                <h4>{{post.content|truncatechars:"300"}}</h4><br>
+                    {{ post.image }}<br>
+
+                <form action="{% url 'main:create_comment' post.id %}">
+                    <button class="btn btn-success">Перейти к статье</button> {% csrf_token %}
+                </form><br>
+
+                <form action="{% url 'main:update_post' post.id %}">
+                    <button class="btn btn-primary">Редактировать статью</button> {% csrf_token %}
+                </form><br>
+
+                <form action="{% url 'main:delete_post' post.id %}">
+                    <button class="btn btn-warning">Удалить статью</button> {% csrf_token %}
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
