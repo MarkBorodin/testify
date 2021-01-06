@@ -6,7 +6,7 @@ from django.db import models
 class Post(BaseModel):
     title = models.CharField("Название", max_length=128)
     content = models.TextField("Контент")
-    image = models.ImageField(upload_to='pics/', null=False, blank=False, )
+    image = models.ImageField(upload_to='pics/', default='pics/fi1.jpg')
 
     def __str__(self):
         return self.title

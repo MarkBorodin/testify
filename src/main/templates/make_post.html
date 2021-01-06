@@ -12,7 +12,7 @@
 {% block content %}
     <div class="container" style="text-align: center">
         <h1>Создать статью</h1>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{form|crispy}}
             <br>
