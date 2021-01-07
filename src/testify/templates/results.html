@@ -56,19 +56,19 @@
                         <td></td>
                         <td></td>
                       </tr>
-                      <tr>
                         {% for question in questions %}
-                            {% if question.test == test_result.test %}
-                                <td><div class="p-3 mb-2 bg-secondary text-white">For the question: "{{question}}"</div></td>
-                                {% for user_response in user_responses %}
-                                    {% if user_response.test_result == test_result and user_response.question == question %}
-                                        <td><div class="p-3 mb-2 {% if user_response.user_response.is_correct %} bg-success text-white {% else %} bg-danger text-white {% endif %}">You answered: "{{user_response}}"</div></td>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
+                            <tr>
+                                {% if question.test == test_result.test %}
+                                    <td><div class="p-3 mb-2 bg-secondary text-white">For the question: "{{question}}"</div></td>
+                                    {% for user_response in user_responses %}
+                                        {% if user_response.test_result == test_result and user_response.question == question %}
+                                            <td><div class="p-3 mb-2 {% if user_response.user_response.is_correct %} bg-success text-white {% else %} bg-danger text-white {% endif %}">You answered: "{{user_response}}"</div></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </tr>
                         {% endfor %}
                     {% endfor %}
-                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -1,4 +1,6 @@
+from accounts.models import User
 from core.models import BaseModel
+from core.utils import resize_image_for_post
 
 from django.db import models
 
@@ -11,6 +13,11 @@ class Post(BaseModel):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        result = super().save(*args, **kwargs)
+        resize_image_for_post(self.image)
+        return result
+
     class Meta:
         verbose_name = "Статья"
         verbose_name_plural = "Статьи"
@@ -21,6 +28,7 @@ class Comment(BaseModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment_text = models.TextField("Комментарий", max_length=256)
     comment_date = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return self.comment_text
@@ -46,7 +54,7 @@ class Contact(BaseModel):
     name = models.CharField("Имя", max_length=64)
     phone = models.CharField("Телефон", max_length=24)
     email = models.EmailField("Почта")
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)
+    level = models.ForeignKey(to=Level, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -74,8 +82,8 @@ class Client(BaseModel):
     email = models.EmailField("Почта")
     age = models.IntegerField("Возраст")
     skype = models.CharField("Skype", max_length=124)
-    level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    whose = models.ForeignKey(Whose, on_delete=models.CASCADE)
+    level = models.ForeignKey(to=Level, on_delete=models.CASCADE)
+    whose = models.ForeignKey(to=Whose, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.firstname
@@ -86,7 +94,7 @@ class Client(BaseModel):
 
 
 class Lessons(BaseModel):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(to=Client, on_delete=models.CASCADE)
     date = models.DateTimeField("Дата", null=True, blank=True)
     price = models.IntegerField("Цена")
     whose = models.ForeignKey(Whose, on_delete=models.CASCADE)

@@ -136,12 +136,12 @@ tr:nth-child(even) {
                     <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
                 </li>
 
-                <li class="nav-item {% if request.path == Profile %} active {% endif %}">
-                    <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
-                </li>
-
                 <li class="img-circle.vert">
                     <img class="rounded-circle p-1 m-1" width="40" height="40" src=" {{ user.image.url }} ">
+                </li>
+
+                <li class="nav-item {% if request.path == Profile %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
                 </li>
 
                 {% else %}

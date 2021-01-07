@@ -35,7 +35,7 @@
                 {% if comment.post_id == post.id %}
                     <div class="alert alert-warning mt-1">
                         <p>{{comment.comment_text}}</p>
-                        <p>{{comment.comment_date}}</p>
+                        <p>{{comment.comment_date}}, {{comment.user}} &#128526;</p>
                     </div>
                 {% endif %}
             {% endfor %}

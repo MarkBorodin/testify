@@ -68,6 +68,19 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         kwargs["post"] = Post.objects.get(id=self.kwargs["pk"])
         return super().get_context_data(**kwargs)
 
+    def form_valid(self, form):
+        post = Post.objects.get(id=self.kwargs["pk"])
+        user = self.request.user
+        form = form.save(commit=False)
+        form.post = post
+        form.user = user
+        form.save()
+        context = {
+            'posts': Post.objects.all(),
+            'comments': Comment.objects.all()
+        }
+        return render(self.request, 'posts_list.html', context)
+
 
 class ClientCreateView(SuperUserCheckMixin, CreateView, ListView):
     """create a new client"""
