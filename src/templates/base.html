@@ -45,6 +45,13 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.menu a {
+    display:block;
+    padding: 0 20px;
+    float:left
+}
+
 </style>
 </head>
 
@@ -175,7 +182,7 @@ tr:nth-child(even) {
       </div>
     </div>
 </nav>
-</div>
+
 
 {% include 'includes/messages.html' %}
 
@@ -189,6 +196,54 @@ tr:nth-child(even) {
 
     {% block content %}
     {% endblock %}
+
 </div>
+
+    <div class="menu">
+
+        {% if user.is_authenticated %}
+            <small>
+                    <a href="{% url 'tests:list' %}">Tests</a>
+                    <a href="{% url 'tests:results' %}">My results</a>
+
+                    <a href="{% url 'main:posts' %}">Posts</a>
+
+                    <a href="{% url 'main:courses' %}">Courses</a>
+
+                    <a href="{% url 'main:about' %}">About</a>
+
+                    <a href="{% url 'accounts:trial_lesson' %}">Trial lesson</a>
+
+                    <a href="{% url 'accounts:contact_us' %}">Contact us</a>
+
+                    <a href="{% url 'accounts:logout' %}">Log out</a>
+
+                    <a href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
+
+
+                {% else %}
+
+                    <a href="{% url 'accounts:register' %}">Register</a>
+
+                    <a href="{% url 'accounts:login' %}">Login</a>
+
+
+                {% endif %}
+
+                {% if user.is_superuser %}
+
+                    <a href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
+
+                    <a href="{% url 'accounts:users' %}">Users</a>
+
+                    <a href="{% url 'main:lessons' %}">lessons</a>
+
+                    <a href="{% url 'main:clients' %}">clients</a>
+
+                    <a href="{% url 'admin:index' %}">admin</a>
+            </small>
+        {% endif %}
+    </div>
+
 </body>
 </html>
