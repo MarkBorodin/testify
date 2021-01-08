@@ -27,7 +27,7 @@
             <div class="alert alert-warning mt-4">
                 <h2>{{post.title}}</h2><br>
                 <h4>{{post.content|truncatechars:"300"}}</h4><br>
-                    {{ post.image }}<br>
+                    <img width="600" height="500" src=" {{ post.image.url }} "><br><br>
 
                 <form action="{% url 'main:create_comment' post.id %}">
                     <button class="btn btn-success">Перейти к статье</button> {% csrf_token %}

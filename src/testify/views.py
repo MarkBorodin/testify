@@ -13,19 +13,26 @@ class TestListView(LoginRequiredMixin, ListView):
     model = Test
     template_name = 'list.html'
     context_object_name = 'tests'
+    paginate_by = 10
 
 
 class ResultListView(LoginRequiredMixin, ListView):
     """show test result"""
-    model = Test
+    model = TestResult
     template_name = 'results.html'
-    context_object_name = 'tests'
+    context_object_name = 'test_results'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = TestResult.objects.filter(user=user).order_by('-write_date')
+        return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context["user"] = self.request.user
-        context["test_results"] = TestResult.objects.filter(user=user).order_by('-write_date')
+        context["tests"] = Test.objects.all()
         context["user_responses"] = UserResponse.objects.filter(user=user)
         context['questions'] = Question.objects.all()
         return context

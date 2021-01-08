@@ -1,4 +1,5 @@
 from accounts.models import User
+
 from core.models import BaseModel
 from core.utils import resize_image_for_post
 
