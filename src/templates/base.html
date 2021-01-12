@@ -28,6 +28,16 @@
   padding: 0;
 }
 
+.c {
+background: #faf0e6; /* Цвет фона */
+border: 1px solid #01796f; /* Рамка */
+border-radius: 15px;
+display: inline-block;
+padding: 5px 15px; /* Поля */
+text-decoration: none; /* Убираем подчёркивание */
+color: #01796f; /* Цвет текста */
+}
+
 body {
             height: 100%;
             background: url({% static "common/img/bg1.jpg" %}) no-repeat center center fixed;
@@ -90,44 +100,44 @@ tr:nth-child(even) {
 
             {% if user.is_authenticated %}
                 <small>
-                        <a href="{% url 'tests:list' %}">Tests</a>
-                        <a href="{% url 'tests:results' %}">My results</a>
+                        <a href="{% url 'tests:list' %}" class="c">Tests</a>
+                        <a href="{% url 'tests:results' %}" class="c">My results</a>
 
-                        <a href="{% url 'main:posts' %}">Posts</a>
+                        <a href="{% url 'main:posts' %}" class="c">Posts</a>
 
-                        <a href="{% url 'main:courses' %}">Courses</a>
+                        <a href="{% url 'main:courses' %}" class="c">Courses</a>
 
-                        <a href="{% url 'main:about' %}">About</a>
+                        <a href="{% url 'main:about' %}" class="c">About</a>
 
-                        <a href="{% url 'accounts:trial_lesson' %}">Trial lesson</a>
+                        <a href="{% url 'accounts:trial_lesson' %}" class="c">Trial lesson</a>
 
-                        <a href="{% url 'accounts:contact_us' %}">Contact us</a>
+                        <a href="{% url 'accounts:contact_us' %}" class="c">Contact us</a>
 
-                        <a href="{% url 'accounts:logout' %}">Log out</a>
+                        <a href="{% url 'accounts:logout' %}" class="c">Log out</a>
 
-                        <a href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
+                        <a href="{% url 'accounts:profile' %}" class="c">Profile ({{ user.username }})</a>
 
 
                     {% else %}
 
-                        <a href="{% url 'accounts:register' %}">Register</a>
+                        <a href="{% url 'accounts:register' %}" class="c">Register</a>
 
-                        <a href="{% url 'accounts:login' %}">Login</a>
+                        <a href="{% url 'accounts:login' %}" class="c">Login</a>
 
 
                     {% endif %}
 
                     {% if user.is_superuser %}
 
-                        <a href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
+                        <a href="{% url 'accounts:leaderboard' %}" class="c">Leaderboard</a>
 
-                        <a href="{% url 'accounts:users' %}">Users</a>
+                        <a href="{% url 'accounts:users' %}" class="c">Users</a>
 
-                        <a href="{% url 'main:lessons' %}">lessons</a>
+                        <a href="{% url 'main:lessons' %}" class="c">lessons</a>
 
-                        <a href="{% url 'main:clients' %}">clients</a>
+                        <a href="{% url 'main:clients' %}" class="c">clients</a>
 
-                        <a href="{% url 'admin:index' %}">admin</a>
+                        <a href="{% url 'admin:index' %}" class="c">admin</a>
                 </small>
             {% endif %}
     </div>
