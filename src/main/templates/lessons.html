@@ -134,10 +134,27 @@
                     </td>
                 </tr>
                 {% endfor %}
-            </table><br>
+            </table><br><br>
     </div>
 
 {% endfor %}
 
+
+    <div>
+        <table border="1" width="100%" cellpadding="5">
+            <tr>
+                <td><p>Занятий в этом месяце:</p></td>
+                <td>{{ sum_this_month_lessons }}</td>
+            </tr>
+            <tr>
+                <td><p>Всего доход за месяц:</p></td>
+                <td>{{ this_month_income }}</td>
+            </tr>
+            <tr>
+                <td><p>Доход за сегодня:</p></td>
+                <td>{{ this_day_income }}</td>
+            </tr>
+        </table>
+    </div>
 
 {% endblock %}

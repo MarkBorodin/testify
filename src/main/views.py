@@ -125,6 +125,9 @@ class LessonsListView(SuperUserCheckMixin, ListView):
     context_object_name = "this_month_lessons"
 
     def get_context_data(self, **kwargs):
+        kwargs['this_month_income'] = Lessons.get_this_month_income()
+        kwargs['this_day_income'] = Lessons.get_this_day_income()
+        kwargs["sum_this_month_lessons"] = len(self.get_queryset())
         kwargs['today_lessons'] = Lessons.objects.filter(date__date=datetime.today())
         kwargs['tomorrow_lessons'] = Lessons.objects.filter(date__date=datetime.today() + timedelta(days=1))
         kwargs["sum_today_lessons"] = len(kwargs['today_lessons'])
@@ -165,14 +168,8 @@ class LessonsPerMonthListView(SuperUserCheckMixin, ListView):
         return this_month_lessons
 
     def get_context_data(self, **kwargs):
-        current_month = datetime.now().month
-        current_year = datetime.now().year
-        this_month_lessons = Lessons.objects.filter(date__month=current_month, date__year=current_year)
-        income = 0
-        for lesson in this_month_lessons:
-            income += lesson.price
-
-        kwargs['this_month_income'] = income
+        kwargs['this_month_income'] = Lessons.get_this_month_income()
+        kwargs['this_day_income'] = Lessons.get_this_day_income()
         kwargs["sum_this_month_lessons"] = len(self.get_queryset())
         return super().get_context_data(**kwargs)
 

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from accounts.models import User
 
 from core.models import BaseModel
@@ -101,10 +103,31 @@ class Lessons(BaseModel):
     whose = models.ForeignKey(Whose, on_delete=models.CASCADE)
     was = models.BooleanField(default=False)
 
-    def __str__(self):
-        return str(self.client)
-
     class Meta:
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
         ordering = ["date"]
+
+    def __str__(self):
+        return str(self.client)
+
+    @classmethod
+    def get_this_month_income(cls):
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        this_month_lessons = cls.objects.filter(date__month=current_month, date__year=current_year)
+        month_income = 0
+        for lesson in this_month_lessons:
+            month_income += lesson.price
+        return month_income
+
+    @classmethod
+    def get_this_day_income(cls):
+        current_day = datetime.now().day
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        today_income = 0
+        this_day_income = cls.objects.filter(date__month=current_month, date__year=current_year, date__day=current_day)
+        for lesson in this_day_income:
+            today_income += lesson.price
+        return today_income
