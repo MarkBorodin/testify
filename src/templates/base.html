@@ -84,6 +84,56 @@ tr:nth-child(even) {
 {%url 'accounts:register' as Register %}
 {%url 'accounts:login' as Login %}
 
+{% if request.user_agent.is_mobile %}
+
+    <div class="container">
+
+            {% if user.is_authenticated %}
+                <small>
+                        <a href="{% url 'tests:list' %}">Tests</a>
+                        <a href="{% url 'tests:results' %}">My results</a>
+
+                        <a href="{% url 'main:posts' %}">Posts</a>
+
+                        <a href="{% url 'main:courses' %}">Courses</a>
+
+                        <a href="{% url 'main:about' %}">About</a>
+
+                        <a href="{% url 'accounts:trial_lesson' %}">Trial lesson</a>
+
+                        <a href="{% url 'accounts:contact_us' %}">Contact us</a>
+
+                        <a href="{% url 'accounts:logout' %}">Log out</a>
+
+                        <a href="{% url 'accounts:profile' %}">Profile ({{ user.username }})</a>
+
+
+                    {% else %}
+
+                        <a href="{% url 'accounts:register' %}">Register</a>
+
+                        <a href="{% url 'accounts:login' %}">Login</a>
+
+
+                    {% endif %}
+
+                    {% if user.is_superuser %}
+
+                        <a href="{% url 'accounts:leaderboard' %}">Leaderboard</a>
+
+                        <a href="{% url 'accounts:users' %}">Users</a>
+
+                        <a href="{% url 'main:lessons' %}">lessons</a>
+
+                        <a href="{% url 'main:clients' %}">clients</a>
+
+                        <a href="{% url 'admin:index' %}">admin</a>
+                </small>
+            {% endif %}
+    </div>
+
+{% else %}
+
 <nav class="navbar navbar-expand-lg navbar-primary bg-light">
     <div class="container">
       <a class="navbar-brand" href="{% url 'core:index' %}">FAST ENGLISH</a>
@@ -203,6 +253,7 @@ tr:nth-child(even) {
     </div>
 </nav>
 
+{% endif %}
 
 {% include 'includes/messages.html' %}
 

@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     # 'django_extensions',
     'crispy_forms',
+    'django_user_agents',
     # 'debug_toolbar',
 
     'testify',
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
