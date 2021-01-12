@@ -165,6 +165,14 @@ class LessonsPerMonthListView(SuperUserCheckMixin, ListView):
         return this_month_lessons
 
     def get_context_data(self, **kwargs):
+        current_month = datetime.now().month
+        current_year = datetime.now().year
+        this_month_lessons = Lessons.objects.filter(date__month=current_month, date__year=current_year)
+        income = 0
+        for lesson in this_month_lessons:
+            income += lesson.price
+
+        kwargs['this_month_income'] = income
         kwargs["sum_this_month_lessons"] = len(self.get_queryset())
         return super().get_context_data(**kwargs)
 
