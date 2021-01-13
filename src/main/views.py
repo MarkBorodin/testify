@@ -125,37 +125,28 @@ class LessonsListView(SuperUserCheckMixin, ListView):
     context_object_name = "this_month_lessons"
 
     def get_context_data(self, **kwargs):
-        kwargs['this_month_income'] = Lessons.get_this_month_income()
-        kwargs['this_day_income'] = Lessons.get_this_day_income()
-        kwargs["sum_this_month_lessons"] = len(self.get_queryset())
-        kwargs['today_lessons'] = Lessons.objects.filter(date__date=datetime.today())
-        kwargs['tomorrow_lessons'] = Lessons.objects.filter(date__date=datetime.today() + timedelta(days=1))
+        kwargs['this_day_income'] = Lessons.get_this_day_income(self.request.user)
+        kwargs['this_day_income_all_teachers'] = Lessons.get_this_day_income()
+        kwargs['this_week_lessons'] = sorted(Lessons.get_this_week_lessons(self.request.user), key=lambda k: k['index'])
+        kwargs['this_month_income'] = Lessons.get_this_month_income(self.request.user)
+        kwargs['this_month_income_all_teachers'] = Lessons.get_this_month_income()
+        kwargs["sum_this_month_lessons"] = len(Lessons.objects.filter(
+            date__gte=datetime(datetime.today().year, datetime.today().month, 1), teacher=self.request.user)
+        )
+        kwargs["sum_this_month_lessons_all_teachers"] = len(Lessons.objects.filter(
+            date__gte=datetime(datetime.today().year, datetime.today().month, 1))
+        )
+        kwargs['today_lessons'] = Lessons.objects.filter(date__date=datetime.today(), teacher=self.request.user)
+        kwargs['tomorrow_lessons'] = Lessons.objects.filter(
+            date__date=datetime.today() + timedelta(days=1), teacher=self.request.user
+        )
         kwargs["sum_today_lessons"] = len(kwargs['today_lessons'])
-
-        days = [
-            (1, 'sunday'), (2, 'monday'), (3, 'tuesday'), (4, 'wednesday'),
-            (5, 'thursday'), (6, 'friday'), (7, 'saturday')
-        ]
-        querysets = []
-        for day, day_of_week in days:
-            one_day_lessons = Lessons.objects.filter(date__week_day=day, date__gte=(datetime.now() - timedelta(days=1)),
-                                                     date__lte=(datetime.now() + timedelta(days=6))).order_by("date")
-
-            item = {
-                'index': day,
-                'lessons': one_day_lessons,
-                'day_of_week': day_of_week,
-            }
-            querysets.append(item)
-
-        kwargs['querysets'] = sorted(querysets, key=lambda k: k['index'])
         return super().get_context_data(**kwargs)
 
 
 class LessonsPerMonthListView(SuperUserCheckMixin, ListView):
     """show lessons per month (for the current month)"""
     model = Lessons
-    success_url = reverse_lazy("main:lessons")
     template_name = "lessons_per_month.html"
     paginate_by = 20
     context_object_name = "this_month_lessons"
@@ -164,13 +155,18 @@ class LessonsPerMonthListView(SuperUserCheckMixin, ListView):
         lessons = super().get_queryset()
         today = datetime.today()
         datem = datetime(today.year, today.month, 1)
-        this_month_lessons = lessons.filter(date__gte=datem).order_by("date")
+        this_month_lessons = lessons.filter(date__gte=datem, teacher=self.request.user).order_by("date")
         return this_month_lessons
 
     def get_context_data(self, **kwargs):
-        kwargs['this_month_income'] = Lessons.get_this_month_income()
-        kwargs['this_day_income'] = Lessons.get_this_day_income()
+        kwargs['this_month_income'] = Lessons.get_this_month_income(self.request.user)
+        kwargs['this_month_income_all_teachers'] = Lessons.get_this_month_income()
+        kwargs['this_day_income'] = Lessons.get_this_day_income(self.request.user)
+        kwargs['this_day_income_all_teachers'] = Lessons.get_this_day_income()
         kwargs["sum_this_month_lessons"] = len(self.get_queryset())
+        kwargs["sum_this_month_lessons_all_teachers"] = len(
+            Lessons.objects.filter(date__gte=datetime(datetime.today().year, datetime.today().month, 1))
+        )
         return super().get_context_data(**kwargs)
 
 

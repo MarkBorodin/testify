@@ -23,7 +23,7 @@
                 <td><strong>Возраст</strong></td>
                 <td><strong>Скайп</strong></td>
                 <td><strong>Уровень</strong></td>
-                <td><strong>Чей клиент</strong></td>
+                <td><strong>Преподаватель</strong></td>
                 <td><strong>Редактировать данные</strong></td>
                 <td><strong>Удалить ученика</strong></td>
             <tr>
@@ -36,7 +36,7 @@
                 <td>{{ client.age }}</td>
                 <td>{{ client.skype }}</td>
                 <td>{{ client.level }}</td>
-                <td>{{ client.whose }}</td>
+                <td>{{ client.teacher }}</td>
                 <td>
                     <form action="{% url 'main:edit_client' client.id %}">{% csrf_token %}
                         <button class="btn btn-info">Редактировать данные</button>
@@ -58,18 +58,7 @@
     {% csrf_token %}
         <div class="alert alert-warning mt-4">
             <h3>Добавить нового клиента</h3><br>
-                {{ form.firstname }}<br>
-                {{ form.lastname }}<br>
-                {{ form.phone }}<br>
-                {{ form.email }}<br>
-                {{ form.age }}<br>
-                {{ form.skype }}<br>
-                <p>Уровень английского:</p>
-                {{ form.level }}<br>
-                <br>
-                <p>Чей клиент:</p>
-                {{ form.whose }}<br>
-                <br>
+                {{ form|crispy }}<br>
             <button type="submit" class="btn btn-success">Добавить ученика</button><br>
             <br>
         </div>

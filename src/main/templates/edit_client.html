@@ -15,17 +15,7 @@
     <h1>Редактировать данные клиента</h1>
         <form method="post">{% csrf_token %}
             <div class="alert alert-warning mt-4">
-                {{ form.firstname }}<br>
-                {{ form.lastname }}<br>
-                {{ form.phone }}<br>
-                {{ form.email }}<br>
-                {{ form.age }}<br>
-                {{ form.skype }}<br>
-                <p>Уровень английского:</p>
-                {{ form.level }}<br>
-                <br>
-                <p>Чей клиент:</p>
-                {{ form.whose }}<br>
+                {{ form|crispy }}<br>
                 <br>
                 <button type="submit" class="btn btn-success">Изменить данные</button><br>
                 <br>

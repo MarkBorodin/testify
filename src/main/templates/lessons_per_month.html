@@ -18,9 +18,9 @@
         <table border="1" width="100%" cellpadding="5">
             <tr>
                 <td><strong>Клиент</strong></td>
+                <td><strong>Преподаватель</strong></td>
                 <td><strong>Дата и время</strong></td>
                 <td><strong>Цена</strong></td>
-                <td><strong>Чей клиент</strong></td>
                 <td><strong>Было ли занятие</strong></td>
                 <td><strong>Редактировать</strong></td>
                 <td><strong>Удалить занятие</strong></td>
@@ -28,9 +28,9 @@
             {% for lesson in this_month_lessons %}
             <tr>
                 <td>{{ lesson.client }}</td>
+                <td>{{ lesson.teacher.full_name }}</td>
                 <td>{{ lesson.date }}</td>
                 <td>{{ lesson.price }}</td>
-                <td>{{ lesson.whose }}</td>
                 <td>{{ lesson.was }}</td>
                 <td>
                     <form action="{% url 'main:edit_lesson' lesson.id %}">
@@ -53,12 +53,24 @@
                 <td>{{ sum_this_month_lessons }}</td>
             </tr>
             <tr>
-                <td><p>Всего доход за месяц:</p></td>
+                <td><p>Доход за месяц:</p></td>
                 <td>{{ this_month_income }}</td>
             </tr>
             <tr>
                 <td><p>Доход за сегодня:</p></td>
                 <td>{{ this_day_income }}</td>
+            </tr>
+            <tr>
+                <td><p>Занятий у всех преподавателей в этом месяце:</p></td>
+                <td>{{ sum_this_month_lessons_all_teachers }}</td>
+            </tr>
+            <tr>
+                <td><p>Доход всех преподавателей за месяц :</p></td>
+                <td>{{ this_month_income_all_teachers }}</td>
+            </tr>
+            <tr>
+                <td><p>Доход всех преподавателей за сегодня:</p></td>
+                <td>{{ this_day_income_all_teachers }}</td>
             </tr>
         </table>
     </div>
