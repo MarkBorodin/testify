@@ -35,7 +35,6 @@ class CommentForm(ModelForm):
 
 
 class ClientForm(ModelForm):
-    post = forms.ModelChoiceField(queryset=Post.objects.all())
     teacher = forms.ModelChoiceField(queryset=User.objects.filter(is_staff=True))
 
     class Meta:
