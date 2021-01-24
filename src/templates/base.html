@@ -114,6 +114,16 @@ tr:nth-child(even) {
 
                     {% else %}
 
+                        <a href="{% url 'main:posts' %}" class="c">Posts</a>
+
+                        <a href="{% url 'main:courses' %}" class="c">Courses</a>
+
+                        <a href="{% url 'main:about' %}" class="c">About</a>
+
+                        <a href="{% url 'accounts:trial_lesson' %}" class="c">Trial lesson</a>
+
+                        <a href="{% url 'accounts:contact_us' %}" class="c">Contact us</a>
+
                         <a href="{% url 'accounts:register' %}" class="c">Register</a>
 
                         <a href="{% url 'accounts:login' %}" class="c">Login</a>
@@ -226,6 +236,33 @@ tr:nth-child(even) {
                 </li>
 
                 {% else %}
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:posts' %}">Posts</a>
+                </li>
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:courses' %}">Courses</a>
+                </li>
+
+                <li class="nav-item {% if request.path == Login %} active {% endif %}">
+                    <a class="nav-link" href="{% url 'main:about' %}">About</a>
+                </li>
+
+<!--                <li class="nav-item {% if request.path == Leaderboard %} active {% endif %}">-->
+<!--                    <a class="nav-link" href="{% url 'accounts:leaderboard' %}">Leaderboard</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item {% if request.path == Users %} active {% endif %}">-->
+<!--                    <a class="nav-link" href="{% url 'accounts:users' %}">Users</a>-->
+<!--                </li>-->
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:trial_lesson' %}">Trial lesson</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:contact_us' %}">Contact us</a>
+                </li>
 
                 <li class="nav-item {% if request.path == Register %} active {% endif %}">
                     <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>

@@ -28,7 +28,7 @@ class PostCreateView(SuperUserCheckMixin, CreateView):
         return super().get_context_data(**kwargs)
 
 
-class PostsListView(LoginRequiredMixin, ListView):
+class PostsListView(ListView):
     """show all posts and comment to them"""
     model = Post
     form_class = CommentForm
@@ -186,8 +186,10 @@ class LessonsDeleteView(SuperUserCheckMixin, DeleteView):
 
 
 def about(request):
+    """about information"""
     return render(request, "about.html")
 
 
 def courses(request):
+    """courses information"""
     return render(request, "courses.html")
